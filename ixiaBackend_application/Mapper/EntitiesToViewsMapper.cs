@@ -1,0 +1,18 @@
+﻿using ixiaBackend_application.Models.Entities;
+using ixiaBackend_application.Models.ModelsView;
+
+namespace ixiaBackend_application.Mapper
+{
+    public class EntitiesToViewsMapper : AutoMapper.Profile
+    {
+        public EntitiesToViewsMapper()
+        {
+            CreateMap<User, UserView>();
+            CreateMap<Favorite, FavoriteView>();
+            CreateMap<Product, ProductView>();
+            CreateMap<Purchase, PurchaseView>();
+            CreateMap<Category, CategoryView>();
+            CreateMap<Company, CompanyView>();
+        }
+    }
+}
