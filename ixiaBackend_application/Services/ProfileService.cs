@@ -22,11 +22,11 @@ namespace ixiaBackend_application.Services
             _mapper = mapper;
         }
 
-        public async Task<Result<UserView>> GetUserAsync(string userId)
+        public async Task<Result<UserView>> GetUserAsync(string id)
         {
-            var result = await _context.Users.Where(x => x.Id == userId)
-               .ProjectTo<UserView>(_mapper.ConfigurationProvider)
-               .FirstAsync();
+            var result = await _context.Users.Where(x => x.Id == id)
+                .ProjectTo<UserView>(_mapper.ConfigurationProvider)
+                .FirstAsync();
 
             if (result == null)
             {

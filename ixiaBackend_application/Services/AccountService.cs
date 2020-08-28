@@ -1,9 +1,11 @@
 ﻿using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Models.ModelsView;
 using ixiaBackend_application.ModelsInput;
+using ixiaBackend_application.Options;
 using ixiaBackend_application.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -19,14 +21,17 @@ namespace ixiaBackend_application.Services
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly IConfiguration _config;
+        private readonly Security securityOptions;
 
         public AccountService(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IConfiguration config)
+            IConfiguration config,
+            IOptions<Security> securityOptions)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             _config = config;
+            this.securityOptions = securityOptions.Value;
         }
 
         public async Task<Result<TokenView>> CreateUserAsync(SignupInput signUpInput)
@@ -82,29 +87,19 @@ namespace ixiaBackend_application.Services
                 return Result.Unauthorized<TokenView>().With(Error.WrongUsernameOrPassword());
             }
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("DateOfJoing", user.BirthDate.ToString("yyyy-MM-dd")),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Issuer"],
-                claims,
-                expires: DateTime.Now.AddMinutes(120),
-                signingCredentials: credentials);
+            var principal = await signInManager.CreateUserPrincipalAsync(user);
+            var creds = new SigningCredentials(securityOptions.SecurityKey, SecurityAlgorithms.HmacSha256Signature);
+            var expiresOn = DateTime.UtcNow.AddHours(securityOptions.ExpireInDays);
+            var token = new JwtSecurityToken(issuer: securityOptions.Issuer, audience: securityOptions.Audiance,
+                signingCredentials: creds, claims: principal.Claims, expires: expiresOn);
+            await userManager.UpdateAsync(user);
 
             return new TokenView
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
                 ExpiresOn = token.ValidTo,
-                Email = user.Email,
-                UserId = user.Id,
-                UserName = user.UserName
+                Email = signInInput.Email,
+                UserId = user.Id
             };
         }
     }
