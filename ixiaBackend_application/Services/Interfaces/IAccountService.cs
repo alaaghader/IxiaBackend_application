@@ -8,5 +8,6 @@ namespace ixiaBackend_application.Services.Interfaces
     {
         Task<Result<TokenView>> CreateUserAsync(SignupInput signUpInput);
         Task<Result<TokenView>> SignInAsync(SigninInput signInInput);
+        Task<Result<TokenView>> SignInWithFacebook(FacebookSignInInput facebookSignInInput);
     }
 }

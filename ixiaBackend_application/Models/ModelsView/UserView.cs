@@ -13,5 +13,6 @@ namespace ixiaBackend_application.Models.ModelsView
         public DateTime BirthDate { get; set; }
         public string Address { get; set; }
         public string Token { get; set; }
+        public string Provider { get; set; }
     }
 }

@@ -21,8 +21,9 @@ namespace ixiaBackend_application.Models.ModelsView
         public static Error WrongUsernameOrPassword()
             => new Error(nameof(WrongUsernameOrPassword), "Incorrect username or password");
 
-        public static Error EmailAlreadyExists()
-            => new Error(nameof(EmailAlreadyExists), "Email account already exists");
+        public static Error EmailAlreadyExists(string provider)
+            => new Error(nameof(EmailAlreadyExists), $"Email account already exists, try to login with your " +
+                $"'{provider}' account");
 
         public static Error EmailNotFound(string email, string field = "email")
             => new Error(nameof(EmailNotFound), $"No user with email '{email}' was found", field);

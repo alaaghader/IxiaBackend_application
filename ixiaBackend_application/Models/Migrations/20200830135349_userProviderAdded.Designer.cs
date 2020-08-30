@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ixiaBackend_application.Models;
 
 namespace ixiaBackend_application.Migrations
 {
     [DbContext(typeof(IxiaContext))]
-    partial class IxiaContextModelSnapshot : ModelSnapshot
+    [Migration("20200830135349_userProviderAdded")]
+    partial class userProviderAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
