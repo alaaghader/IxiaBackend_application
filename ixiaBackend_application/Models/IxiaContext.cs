@@ -8,7 +8,6 @@ namespace ixiaBackend_application.Models
     {
         public IxiaContext(DbContextOptions<IxiaContext> options) : base(options) { }
 
-      public DbSet<User> Users { get; set; }
       public DbSet<Category> Categories { get; set; }
       public DbSet<Company> Companies { get; set; }
       public DbSet<Favorite> Favorites { get; set; }

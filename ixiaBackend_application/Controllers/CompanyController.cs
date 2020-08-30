@@ -8,7 +8,7 @@ namespace ixiaBackend_application.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class CompanyController : Controller
     {
         private readonly ICompanyService _companyService;
 

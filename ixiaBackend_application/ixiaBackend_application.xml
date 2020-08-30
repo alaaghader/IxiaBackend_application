@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ixiaBackend_application</name>
+    </assembly>
+    <members>
+        <member name="M:ixiaBackend_application.Controllers.AccountController.SignUpAsync(ixiaBackend_application.ModelsInput.SignupInput)">
+            <summary>
+            Create a new account
+            </summary>
+            <param name="input">User sign up information</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.AccountController.LoginAsync(ixiaBackend_application.ModelsInput.SigninInput)">
+            <summary>
+            Log a user in
+            </summary>
+            <param name="input">User email and password</param>
+            <returns>A valid access token</returns>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.ProfileController.GetUserAsync">
+            <summary>
+            Get signed-in user profile info
+            </summary>
+            <returns>User info</returns>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.ProfileController.GetUserAsync(System.String)">
+            <summary>
+            Get user profile info by id
+            </summary>
+            <returns>User info</returns>
+        </member>
+    </members>
+</doc>

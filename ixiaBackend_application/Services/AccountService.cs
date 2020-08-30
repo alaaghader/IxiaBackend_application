@@ -20,17 +20,14 @@ namespace ixiaBackend_application.Services
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private readonly IConfiguration _config;
         private readonly Security securityOptions;
 
         public AccountService(UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IConfiguration config,
             IOptions<Security> securityOptions)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            _config = config;
             this.securityOptions = securityOptions.Value;
         }
 

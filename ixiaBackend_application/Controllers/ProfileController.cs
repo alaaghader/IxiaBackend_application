@@ -12,7 +12,7 @@ namespace ixiaBackend_application.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProfileController : ControllerBase
+    public class ProfileController : Controller
     {
         private readonly IProfileService _profileService;
         private readonly UserManager<User> userManager;
@@ -44,10 +44,9 @@ namespace ixiaBackend_application.Controllers
         /// <returns>User info</returns>
         [HttpGet("{id}")]
         [Produces(typeof(Result<UserView>))]
-        [Authorize, AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetUserAsync(string id)
         {
-            var user = await userManager.GetUserAsync(User);
             var result = await _profileService.GetUserAsync(id);
             return result.ToActionResult();
         }
