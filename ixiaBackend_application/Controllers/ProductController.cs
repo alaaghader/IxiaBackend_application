@@ -21,6 +21,10 @@ namespace ixiaBackend_application.Controllers
             _productService = productService;
         }
 
+        /// <summary>
+        /// Add Product
+        /// </summary>
+        /// <param name="productInput">Product input</param>
         [HttpPost("AddProduct")]
         public async Task<IActionResult> AddProductAsync(ProductInput productInput)
         {
@@ -28,6 +32,10 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Get All Product
+        /// </summary>
+        /// <returns>All Product Details</returns>
         [HttpGet("GetAllProduct")]
         public async Task<IActionResult> GetAllProductAsync()
         {
@@ -35,6 +43,11 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Get Product Details
+        /// </summary>
+        /// <param name="id">Product id</param>
+        /// <returns>Product Details</returns>
         [HttpGet("GetProductDetails/{id}")]
         public async Task<IActionResult> GetProductDetailsAsync(int id)
         {

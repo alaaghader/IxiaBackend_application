@@ -16,6 +16,11 @@ namespace ixiaBackend_application.Controllers
             _purchaseService = purchaseService; 
         }
 
+        /// <summary>
+        /// Get All Purchases Details
+        /// </summary>
+        /// <param name="userId">User id</param>
+        /// <returns>All Purchases Details</returns>
         [HttpGet("GetAllPurchases/{userId}")]
         public async Task<IActionResult> GetAllPurchasesAsync(string userId)
         {
@@ -23,6 +28,12 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Toggle Purchase
+        /// </summary>
+        /// <param name="userId">User id</param>
+        /// <param name="productId">Product id</param>
+        /// <param name="comments">Comments</param>
         [HttpPost("TogglePurchase")]
         public async Task<IActionResult> TogglePurchasesAsync(string userId, int productId, string comments)
         {

@@ -91,20 +91,7 @@ namespace ixiaBackend_application.Services
                 return Result.Unauthorized<TokenView>().With(Error.WrongUsernameOrPassword());
             }
 
-            var principal = await signInManager.CreateUserPrincipalAsync(user);
-            var creds = new SigningCredentials(securityOptions.SecurityKey, SecurityAlgorithms.HmacSha256Signature);
-            var expiresOn = DateTime.UtcNow.AddHours(securityOptions.ExpireInDays);
-            var token = new JwtSecurityToken(issuer: securityOptions.Issuer, audience: securityOptions.Audiance,
-                signingCredentials: creds, claims: principal.Claims, expires: expiresOn);
-            await userManager.UpdateAsync(user);
-
-            return new TokenView
-            {
-                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-                ExpiresOn = token.ValidTo,
-                Email = signInInput.Email,
-                UserId = user.Id
-            };
+            return await GenerateToken(user, signInInput.Email);
         }
 
         public async Task<Result<TokenView>> SignInWithFacebook(FacebookSignInInput facebookSignInInput)
@@ -118,20 +105,7 @@ namespace ixiaBackend_application.Services
                 }
                 else
                 {
-                    var principal = await signInManager.CreateUserPrincipalAsync(user);
-                    var creds = new SigningCredentials(securityOptions.SecurityKey, SecurityAlgorithms.HmacSha256Signature);
-                    var expiresOn = DateTime.UtcNow.AddHours(securityOptions.ExpireInDays);
-                    var token = new JwtSecurityToken(issuer: securityOptions.Issuer, audience: securityOptions.Audiance,
-                        signingCredentials: creds, claims: principal.Claims, expires: expiresOn);
-                    await userManager.UpdateAsync(user);
-
-                    return new TokenView
-                    {
-                        AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-                        ExpiresOn = token.ValidTo,
-                        Email = facebookSignInInput.Email,
-                        UserId = user.Id
-                    };
+                    return await GenerateToken(user, facebookSignInInput.Email);
                 }
             }
             else
@@ -144,20 +118,7 @@ namespace ixiaBackend_application.Services
 
                 await userManager.CreateAsync(newUser);
 
-                var principal = await signInManager.CreateUserPrincipalAsync(newUser);
-                var creds = new SigningCredentials(securityOptions.SecurityKey, SecurityAlgorithms.HmacSha256Signature);
-                var expiresOn = DateTime.UtcNow.AddHours(securityOptions.ExpireInDays);
-                var token = new JwtSecurityToken(issuer: securityOptions.Issuer, audience: securityOptions.Audiance,
-                    signingCredentials: creds, claims: principal.Claims, expires: expiresOn);
-                await userManager.UpdateAsync(newUser);
-
-                return new TokenView
-                {
-                    AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-                    ExpiresOn = token.ValidTo,
-                    Email = facebookSignInInput.Email,
-                    UserId = newUser.Id
-                };
+                return await GenerateToken(newUser, facebookSignInInput.Email);
             }
         }
 
@@ -172,20 +133,7 @@ namespace ixiaBackend_application.Services
                 }
                 else
                 {
-                    var principal = await signInManager.CreateUserPrincipalAsync(user);
-                    var creds = new SigningCredentials(securityOptions.SecurityKey, SecurityAlgorithms.HmacSha256Signature);
-                    var expiresOn = DateTime.UtcNow.AddHours(securityOptions.ExpireInDays);
-                    var token = new JwtSecurityToken(issuer: securityOptions.Issuer, audience: securityOptions.Audiance,
-                        signingCredentials: creds, claims: principal.Claims, expires: expiresOn);
-                    await userManager.UpdateAsync(user);
-
-                    return new TokenView
-                    {
-                        AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-                        ExpiresOn = token.ValidTo,
-                        Email = googleSignInInput.Email,
-                        UserId = user.Id
-                    };
+                    return await GenerateToken(user, googleSignInInput.Email);
                 }
             }
             else
@@ -199,21 +147,26 @@ namespace ixiaBackend_application.Services
 
                 await userManager.CreateAsync(newUser);
 
-                var principal = await signInManager.CreateUserPrincipalAsync(newUser);
-                var creds = new SigningCredentials(securityOptions.SecurityKey, SecurityAlgorithms.HmacSha256Signature);
-                var expiresOn = DateTime.UtcNow.AddHours(securityOptions.ExpireInDays);
-                var token = new JwtSecurityToken(issuer: securityOptions.Issuer, audience: securityOptions.Audiance,
-                    signingCredentials: creds, claims: principal.Claims, expires: expiresOn);
-                await userManager.UpdateAsync(newUser);
-
-                return new TokenView
-                {
-                    AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-                    ExpiresOn = token.ValidTo,
-                    Email = googleSignInInput.Email,
-                    UserId = newUser.Id
-                };
+                return await GenerateToken(newUser, googleSignInInput.Email);
             }
+        }
+
+        public async Task<Result<TokenView>> GenerateToken(User user, string email)
+        {
+            var principal = await signInManager.CreateUserPrincipalAsync(user);
+            var creds = new SigningCredentials(securityOptions.SecurityKey, SecurityAlgorithms.HmacSha256Signature);
+            var expiresOn = DateTime.UtcNow.AddHours(securityOptions.ExpireInDays);
+            var token = new JwtSecurityToken(issuer: securityOptions.Issuer, audience: securityOptions.Audiance,
+                signingCredentials: creds, claims: principal.Claims, expires: expiresOn);
+            await userManager.UpdateAsync(user);
+
+            return new TokenView
+            {
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                ExpiresOn = token.ValidTo,
+                Email = email,
+                UserId = user.Id
+            };
         }
     }
 }

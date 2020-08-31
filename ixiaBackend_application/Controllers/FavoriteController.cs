@@ -20,6 +20,11 @@ namespace ixiaBackend_application.Controllers
             _favoriteService = favoriteService;
         }
 
+        /// <summary>
+        /// Get All Favorites
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>All Favorites Details</returns>
         [HttpGet("GetAllFavorites/{id}")]
         public async Task<IActionResult> GetAllFavoritesAsync(string id)
         {
@@ -27,6 +32,11 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Toggle Favorite
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="prodId">Product id</param>
         [HttpPost("ToggleFavorite")]
         public async Task<IActionResult> ToggleFavoritesAsync(string id,int prodId)
         {

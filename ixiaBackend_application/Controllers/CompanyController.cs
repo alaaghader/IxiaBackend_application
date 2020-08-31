@@ -17,6 +17,10 @@ namespace ixiaBackend_application.Controllers
             _companyService = companyService;
         }
 
+        /// <summary>
+        /// Add Company
+        /// </summary>
+        /// <param name="companyInput">Company input</param>
         [HttpPost("AddCompany")]
         public async Task<IActionResult> AddCompanyAsync(CompanyInput companyInput)
         {
@@ -24,6 +28,10 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Get All companies
+        /// </summary>
+        /// <returns>All Companies Details</returns>
         [HttpGet("GetCompanies")]
         public async Task<IActionResult> GetCompaniesAsync()
         {
@@ -31,6 +39,11 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Get Company Details
+        /// </summary>
+        /// <param name="id">Company id</param>
+        /// <returns>Company Details</returns>
         [HttpGet("GetCompanyDetails/{id}")]
         public async Task<IActionResult> GetCompanyDetailsAsync(int id)
         {

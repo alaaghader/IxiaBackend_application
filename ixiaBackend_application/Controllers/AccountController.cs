@@ -35,6 +35,7 @@ namespace ixiaBackend_application.Controllers
         /// Create a new account
         /// </summary>
         /// <param name="input">User sign up information</param>
+        /// <returns>A valid access token</returns>
         [HttpPost("SignUp")]
         [Produces(typeof(Result<TokenView>))]
         public async Task<IActionResult> SignUpAsync(SignupInput input)
@@ -56,6 +57,11 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Facebook login
+        /// </summary>
+        /// <param name="input">Facebook email</param>
+        /// <returns>A valid access token</returns>
         [HttpPost("FacebookLogin")]
         [Produces(typeof(Result<TokenView>))]
         public async Task<IActionResult> FacebookLoginAsync(FacebookSignInInput input)
@@ -64,6 +70,11 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Google login
+        /// </summary>
+        /// <param name="input">Google email</param>
+        /// <returns>A valid access token</returns>
         [HttpPost("GoogleLogin")]
         [Produces(typeof(Result<TokenView>))]
         public async Task<IActionResult> GoogleLoginAsync(GoogleSignInInput input)
@@ -72,11 +83,11 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
-        [HttpGet("hi")]
-        public async Task<IActionResult> Test()
-        {
-            return Ok(new {message = "hi" });
-        }
+        //  [HttpGet("hi")]
+        //  public async Task<IActionResult> Test()
+        //  {
+        //      return Ok(new {message = "hi" });
+        //  }
 
         //  [HttpGet("ExternalLogin")]
         //  public async Task<IActionResult> ExternalLogin()

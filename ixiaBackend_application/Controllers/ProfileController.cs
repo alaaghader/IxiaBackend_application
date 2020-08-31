@@ -30,7 +30,6 @@ namespace ixiaBackend_application.Controllers
         /// <returns>User info</returns>
         [HttpGet]
         [Authorize]
-        [Produces(typeof(Result<UserView>))]
         public async Task<IActionResult> GetUserAsync()
         {
             var user = await userManager.GetUserAsync(User);
@@ -41,16 +40,22 @@ namespace ixiaBackend_application.Controllers
         /// <summary>
         /// Get user profile info by id
         /// </summary>
+        /// <param name="id">User id</param>
         /// <returns>User info</returns>
         [HttpGet("{id}")]
-        [Produces(typeof(Result<UserView>))]
-        [Authorize]
+        [Authorize, AllowAnonymous]
         public async Task<IActionResult> GetUserAsync(string id)
         {
             var result = await _profileService.GetUserAsync(id);
             return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Update Profile
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="profileInput">User profile input</param>
+        /// <returns>Update Profile</returns>
         [HttpPost("EditProfile")]
         public async Task<IActionResult> UpdateProfileAsync(string id, ProfileInput profileInput)
         {
