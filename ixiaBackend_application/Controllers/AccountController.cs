@@ -64,6 +64,14 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
+        [HttpPost("GoogleLogin")]
+        [Produces(typeof(Result<TokenView>))]
+        public async Task<IActionResult> GoogleLoginAsync(GoogleSignInInput input)
+        {
+            var result = await _account.SignInWithGoogle(input);
+            return result.ToActionResult();
+        }
+
         [HttpGet("hi")]
         public async Task<IActionResult> Test()
         {

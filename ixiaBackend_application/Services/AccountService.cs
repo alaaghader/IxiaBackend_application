@@ -160,5 +160,60 @@ namespace ixiaBackend_application.Services
                 };
             }
         }
+
+        public async Task<Result<TokenView>> SignInWithGoogle(GoogleSignInInput googleSignInInput)
+        {
+            var user = await userManager.FindByEmailAsync(googleSignInInput.Email);
+            if (user != null)
+            {
+                if (user.Provider != "Google")
+                {
+                    return Result.Conflict<TokenView>().With(Error.EmailAlreadyExists(user.Provider));
+                }
+                else
+                {
+                    var principal = await signInManager.CreateUserPrincipalAsync(user);
+                    var creds = new SigningCredentials(securityOptions.SecurityKey, SecurityAlgorithms.HmacSha256Signature);
+                    var expiresOn = DateTime.UtcNow.AddHours(securityOptions.ExpireInDays);
+                    var token = new JwtSecurityToken(issuer: securityOptions.Issuer, audience: securityOptions.Audiance,
+                        signingCredentials: creds, claims: principal.Claims, expires: expiresOn);
+                    await userManager.UpdateAsync(user);
+
+                    return new TokenView
+                    {
+                        AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                        ExpiresOn = token.ValidTo,
+                        Email = googleSignInInput.Email,
+                        UserId = user.Id
+                    };
+                }
+            }
+            else
+            {
+                var newUser = new User
+                {
+                    Email = googleSignInInput.Email,
+                    UserName = googleSignInInput.Email,
+                    Provider = "Google",
+                };
+
+                await userManager.CreateAsync(newUser);
+
+                var principal = await signInManager.CreateUserPrincipalAsync(newUser);
+                var creds = new SigningCredentials(securityOptions.SecurityKey, SecurityAlgorithms.HmacSha256Signature);
+                var expiresOn = DateTime.UtcNow.AddHours(securityOptions.ExpireInDays);
+                var token = new JwtSecurityToken(issuer: securityOptions.Issuer, audience: securityOptions.Audiance,
+                    signingCredentials: creds, claims: principal.Claims, expires: expiresOn);
+                await userManager.UpdateAsync(newUser);
+
+                return new TokenView
+                {
+                    AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                    ExpiresOn = token.ValidTo,
+                    Email = googleSignInInput.Email,
+                    UserId = newUser.Id
+                };
+            }
+        }
     }
 }
