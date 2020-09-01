@@ -11,6 +11,6 @@ namespace ixiaBackend_application.Models.ModelsView
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public List<ProductView> Products { get; set; }
+       // public List<ProductView> Products { get; set; }
     }
 }

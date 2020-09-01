@@ -53,6 +53,17 @@ namespace ixiaBackend_application.Services
             return result;
         }
 
+        public async Task<Result<List<ProductView>>> SearchProductsAsync(string name)
+        {
+            var result = await (from product in _context.Products
+                                where product.Name.Contains(name)
+                                select product)
+                                .ProjectTo<ProductView>(_mapper.ConfigurationProvider)
+                                .ToListAsync();
+
+            return result;
+        }
+
         public async Task<Result<ProductView>> GetProductDetailsAsync(int id)
         {
             var result = await (from product in _context.Products
