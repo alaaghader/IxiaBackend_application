@@ -35,12 +35,12 @@ namespace ixiaBackend_application.Controllers
         /// <summary>
         /// Search Product
         /// </summary>
-        /// <param name="name">Product name</param>
+        /// <param name="input">Product name</param>
         /// <returns>Product Details</returns>
         [HttpPost("SearchProduct")]
-        public async Task<IActionResult> SearchProductAsync(string name)
+        public async Task<IActionResult> SearchProductAsync(SearchInput input)
         {
-            var result = await _productService.SearchProductsAsync(name);
+            var result = await _productService.SearchProductsAsync(input.Name);
             return result.ToActionResult();
         }
 

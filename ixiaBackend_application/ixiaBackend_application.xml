@@ -77,11 +77,11 @@
             </summary>
             <param name="productInput">Product input</param>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.ProductController.SearchProductAsync(System.String)">
+        <member name="M:ixiaBackend_application.Controllers.ProductController.SearchProductAsync(ixiaBackend_application.ModelsInput.SearchInput)">
             <summary>
             Search Product
             </summary>
-            <param name="name">Product name</param>
+            <param name="input">Product name</param>
             <returns>Product Details</returns>
         </member>
         <member name="M:ixiaBackend_application.Controllers.ProductController.GetAllProductAsync">
