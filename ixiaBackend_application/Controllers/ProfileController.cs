@@ -6,7 +6,6 @@ using ixiaBackend_application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using ixiaBackend_application.Models.ModelsView;
 
 namespace ixiaBackend_application.Controllers
 {

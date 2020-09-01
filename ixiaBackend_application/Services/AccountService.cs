@@ -165,7 +165,8 @@ namespace ixiaBackend_application.Services
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
                 ExpiresOn = token.ValidTo,
                 Email = email,
-                UserId = user.Id
+                UserId = user.Id,
+                UserName = user.UserName,
             };
         }
     }
