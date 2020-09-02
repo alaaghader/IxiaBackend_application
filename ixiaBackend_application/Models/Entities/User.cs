@@ -11,7 +11,7 @@ namespace ixiaBackend_application.Models.Entities
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         public string Address { get; set; }
         public string Token { get; set; }
         public string Provider { get; set; }

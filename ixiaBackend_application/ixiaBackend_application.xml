@@ -110,13 +110,11 @@
             <param name="id">User id</param>
             <returns>User info</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.ProfileController.UpdateProfileAsync(System.String,ixiaBackend_application.ModelsInput.ProfileInput)">
+        <member name="M:ixiaBackend_application.Controllers.ProfileController.UpdateAsync(ixiaBackend_application.ModelsInput.ProfileInput)">
             <summary>
-            Update Profile
+            Update profile info
             </summary>
-            <param name="id">User id</param>
-            <param name="profileInput">User profile input</param>
-            <returns>Update Profile</returns>
+            <returns>Updated profile</returns>
         </member>
         <member name="M:ixiaBackend_application.Controllers.PurchaseController.GetAllPurchasesAsync(System.String)">
             <summary>

@@ -1,5 +1,6 @@
 ﻿using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Models.ModelsView;
+using ixiaBackend_application.ModelsInput;
 using Microsoft.AspNetCore.Identity;
 
 namespace ixiaBackend_application.Mapper
@@ -11,6 +12,7 @@ namespace ixiaBackend_application.Mapper
             CreateMap<User, UserView>();
             CreateMap<Favorite, FavoriteView>();
             CreateMap<Product, ProductView>();
+            CreateMap<ProfileInput, User>();
             CreateMap<Purchase, PurchaseView>();
             CreateMap<Category, CategoryView>();
             CreateMap<Company, CompanyView>();
