@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
 using ixiaBackend_application.Helpers;
+using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ixiaBackend_application.Controllers
@@ -10,21 +13,25 @@ namespace ixiaBackend_application.Controllers
     public class PurchaseController : Controller
     {
         private readonly IPurchaseService _purchaseService;
+        private readonly UserManager<User> userManager;
 
-        public PurchaseController(IPurchaseService purchaseService)
+        public PurchaseController(IPurchaseService purchaseService,
+            UserManager<User> userManager)
         {
-            _purchaseService = purchaseService; 
+            _purchaseService = purchaseService;
+            this.userManager = userManager;
         }
 
         /// <summary>
         /// Get All Purchases Details
         /// </summary>
-        /// <param name="userId">User id</param>
         /// <returns>All Purchases Details</returns>
-        [HttpGet("GetAllPurchases/{userId}")]
-        public async Task<IActionResult> GetAllPurchasesAsync(string userId)
+        [HttpGet("GetAllPurchases")]
+        [Authorize]
+        public async Task<IActionResult> GetAllPurchasesAsync()
         {
-            var result = await _purchaseService.GetAllPurchasesAsync(userId);
+            var user = await userManager.GetUserAsync(User);
+            var result = await _purchaseService.GetAllPurchasesAsync(user.Id);
             return result.ToActionResult();
         }
 

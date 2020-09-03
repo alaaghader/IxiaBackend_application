@@ -57,11 +57,10 @@
             <param name="id">Company id</param>
             <returns>Company Details</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.FavoriteController.GetAllFavoritesAsync(System.String)">
+        <member name="M:ixiaBackend_application.Controllers.FavoriteController.GetAllFavoritesAsync">
             <summary>
             Get All Favorites
             </summary>
-            <param name="id">User id</param>
             <returns>All Favorites Details</returns>
         </member>
         <member name="M:ixiaBackend_application.Controllers.FavoriteController.ToggleFavoritesAsync(System.String,System.Int32)">
@@ -110,17 +109,17 @@
             <param name="id">User id</param>
             <returns>User info</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.ProfileController.UpdateAsync(ixiaBackend_application.ModelsInput.ProfileInput)">
+        <member name="M:ixiaBackend_application.Controllers.ProfileController.UpdateProfileAsync(ixiaBackend_application.ModelsInput.ProfileInput)">
             <summary>
-            Update profile info
+            Update Profile
             </summary>
-            <returns>Updated profile</returns>
+            <param name="profileInput">User profile input</param>
+            <returns>Update Profile</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.PurchaseController.GetAllPurchasesAsync(System.String)">
+        <member name="M:ixiaBackend_application.Controllers.PurchaseController.GetAllPurchasesAsync">
             <summary>
             Get All Purchases Details
             </summary>
-            <param name="userId">User id</param>
             <returns>All Purchases Details</returns>
         </member>
         <member name="M:ixiaBackend_application.Controllers.PurchaseController.TogglePurchasesAsync(System.String,System.Int32,System.String)">

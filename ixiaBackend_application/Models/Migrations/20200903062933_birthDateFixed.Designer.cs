@@ -10,8 +10,8 @@ using ixiaBackend_application.Models;
 namespace ixiaBackend_application.Migrations
 {
     [DbContext(typeof(IxiaContext))]
-    [Migration("20200902123937_userBirthDateAdded")]
-    partial class userBirthDateAdded
+    [Migration("20200903062933_birthDateFixed")]
+    partial class birthDateFixed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

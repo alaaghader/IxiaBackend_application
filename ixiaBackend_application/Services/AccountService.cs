@@ -86,6 +86,7 @@ namespace ixiaBackend_application.Services
             }
 
             var signInResult = await signInManager.CheckPasswordSignInAsync(user, signInInput.Password, false);
+
             if (!signInResult.Succeeded)
             {
                 return Result.Unauthorized<TokenView>().With(Error.WrongUsernameOrPassword());

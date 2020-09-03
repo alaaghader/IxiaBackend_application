@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ixiaBackend_application.Helpers;
+using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Services;
 using ixiaBackend_application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ixiaBackend_application.Controllers
@@ -14,21 +17,25 @@ namespace ixiaBackend_application.Controllers
     public class FavoriteController : ControllerBase
     {
         private readonly IFavoriteService _favoriteService;
+        private readonly UserManager<User> userManager;
 
-        public FavoriteController(IFavoriteService favoriteService)
+        public FavoriteController(IFavoriteService favoriteService,
+            UserManager<User> userManager)
         {
             _favoriteService = favoriteService;
+            this.userManager = userManager;
         }
 
         /// <summary>
         /// Get All Favorites
         /// </summary>
-        /// <param name="id">User id</param>
         /// <returns>All Favorites Details</returns>
-        [HttpGet("GetAllFavorites/{id}")]
-        public async Task<IActionResult> GetAllFavoritesAsync(string id)
+        [HttpGet("GetAllFavorites")]
+        [Authorize]
+        public async Task<IActionResult> GetAllFavoritesAsync()
         {
-            var result = await _favoriteService.GetAllFavoritesAsync(id);
+            var user = await userManager.GetUserAsync(User);
+            var result = await _favoriteService.GetAllFavoritesAsync(user.Id);
             return result.ToActionResult();
         }
 
