@@ -37,7 +37,7 @@ namespace ixiaBackend_application.Services
             return result;
         }
 
-        public async Task<Result<bool>> TooglePurchaseAsync(string userId, int productId, string comments)
+        public async Task<Result<bool>> AddPurchaseAsync(string userId, int productId, string comments)
         {
             var result = await _context.Purchases.SingleOrDefaultAsync(e => e.UserId == userId && e.ProductId == productId);
             if (result == null)

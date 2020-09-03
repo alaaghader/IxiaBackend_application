@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ixiaBackend_application.Helpers;
+using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Services;
 using ixiaBackend_application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ixiaBackend_application.Controllers
@@ -15,10 +18,13 @@ namespace ixiaBackend_application.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly UserManager<User> userManager;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService,
+            UserManager<User> userManager)
         {
             _productService = productService;
+            this.userManager = userManager;
         }
 
         /// <summary>
@@ -60,11 +66,20 @@ namespace ixiaBackend_application.Controllers
         /// </summary>
         /// <param name="id">Product id</param>
         /// <returns>Product Details</returns>
-        [HttpGet("GetProductDetails/{id}")]
+        [HttpPost("GetProductDetails/{id}")]
         public async Task<IActionResult> GetProductDetailsAsync(int id)
         {
-            var result = await _productService.GetProductDetailsAsync(id);
-            return result.ToActionResult();
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                var result = await _productService.GetProductDetailsAsync(id, null);
+                return result.ToActionResult();
+            }
+            else 
+            {
+                var result = await _productService.GetProductDetailsAsync(id, user.Id);
+                return result.ToActionResult();
+            }
         }
     }
 }

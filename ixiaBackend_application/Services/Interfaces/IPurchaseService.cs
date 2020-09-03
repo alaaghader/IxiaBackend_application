@@ -9,6 +9,6 @@ namespace ixiaBackend_application.Services.Interfaces
     public interface IPurchaseService
     {
         Task<Result<List<PurchaseView>>> GetAllPurchasesAsync(string userId);
-        Task<Result<bool>> TooglePurchaseAsync(string userId, int productId, string comments);
+        Task<Result<bool>> AddPurchaseAsync(string userId, int productId, string comments);
     }
 }

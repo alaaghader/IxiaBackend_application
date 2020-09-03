@@ -122,7 +122,7 @@
             </summary>
             <returns>All Purchases Details</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.PurchaseController.TogglePurchasesAsync(System.String,System.Int32,System.String)">
+        <member name="M:ixiaBackend_application.Controllers.PurchaseController.AddPurchasesAsync(System.String,System.Int32,System.String)">
             <summary>
             Toggle Purchase
             </summary>

@@ -42,9 +42,9 @@ namespace ixiaBackend_application.Controllers
         /// <param name="productId">Product id</param>
         /// <param name="comments">Comments</param>
         [HttpPost("TogglePurchase")]
-        public async Task<IActionResult> TogglePurchasesAsync(string userId, int productId, string comments)
+        public async Task<IActionResult> AddPurchasesAsync(string userId, int productId, string comments)
         {
-            var result = await _purchaseService.TooglePurchaseAsync(userId, productId, comments);
+            var result = await _purchaseService.AddPurchaseAsync(userId, productId, comments);
             return result.ToActionResult();
         }
     }

@@ -64,12 +64,14 @@ namespace ixiaBackend_application.Services
             return result;
         }
 
-        public async Task<Result<ProductView>> GetProductDetailsAsync(int id)
+        public async Task<Result<ProductView>> GetProductDetailsAsync(int id, string userId)
         {
             var result = await (from product in _context.Products
                                 where product.Id == id
-                                select product)
-                                .ProjectTo<ProductView>(_mapper.ConfigurationProvider)
+                                select _mapper.Map(product, new ProductView {
+                                    IsFavorite = userId != null && _context.Favorites
+                                    .Any(x => x.UserId == userId && x.ProductId == product.Id),
+                                }))
                                 .FirstAsync();
 
             return result;
