@@ -55,6 +55,7 @@ namespace ixiaBackend_application.Controllers
         /// <param name="profileInput">User profile input</param>
         /// <returns>Update Profile</returns>
         [HttpPost("EditProfile")]
+        [Authorize]
         public async Task<IActionResult> UpdateProfileAsync(ProfileInput profileInput)
         {
             var user = await userManager.GetUserAsync(User);

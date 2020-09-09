@@ -63,12 +63,11 @@
             </summary>
             <returns>All Favorites Details</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.FavoriteController.ToggleFavoritesAsync(System.String,System.Int32)">
+        <member name="M:ixiaBackend_application.Controllers.FavoriteController.ToggleFavoritesAsync(System.Int32)">
             <summary>
             Toggle Favorite
             </summary>
-            <param name="id">User id</param>
-            <param name="prodId">Product id</param>
+            <param name="id">Product id</param>
         </member>
         <member name="M:ixiaBackend_application.Controllers.ProductController.AddProductAsync(ixiaBackend_application.ModelsInput.ProductInput)">
             <summary>
@@ -122,11 +121,10 @@
             </summary>
             <returns>All Purchases Details</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.PurchaseController.AddPurchasesAsync(System.String,System.Int32,System.String)">
+        <member name="M:ixiaBackend_application.Controllers.PurchaseController.AddPurchasesAsync(System.Int32,System.String)">
             <summary>
             Toggle Purchase
             </summary>
-            <param name="userId">User id</param>
             <param name="productId">Product id</param>
             <param name="comments">Comments</param>
         </member>

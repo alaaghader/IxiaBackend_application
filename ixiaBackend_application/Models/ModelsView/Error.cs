@@ -18,6 +18,9 @@ namespace ixiaBackend_application.Models.ModelsView
             Path = path;
         }
 
+        public static Error ProductAlreadyOrdered()
+            => new Error(nameof(ProductAlreadyOrdered), "You have already ordered this product before");
+
         public static Error WrongUsernameOrPassword()
             => new Error(nameof(WrongUsernameOrPassword), "Incorrect username or password");
 

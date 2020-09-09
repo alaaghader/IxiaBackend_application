@@ -23,7 +23,7 @@ namespace ixiaBackend_application.Controllers
         /// </summary>
         /// <param name="categoryInput">Category input</param>
         [HttpPost("AddCategory")]
-         [AllowAnonymous]
+        [AllowAnonymous]
         public async Task<IActionResult> AddCategoryAsync(CategoryInput categoryInput)
         {
             var result = await _categoryService.AddCategoryAsync(categoryInput);

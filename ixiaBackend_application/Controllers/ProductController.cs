@@ -32,6 +32,7 @@ namespace ixiaBackend_application.Controllers
         /// </summary>
         /// <param name="productInput">Product input</param>
         [HttpPost("AddProduct")]
+        [AllowAnonymous]
         public async Task<IActionResult> AddProductAsync(ProductInput productInput)
         {
             var result = await _productService.AddProductAsync(productInput);
@@ -44,6 +45,7 @@ namespace ixiaBackend_application.Controllers
         /// <param name="input">Product name</param>
         /// <returns>Product Details</returns>
         [HttpPost("SearchProduct")]
+        [AllowAnonymous]
         public async Task<IActionResult> SearchProductAsync(SearchInput input)
         {
             var result = await _productService.SearchProductsAsync(input.Name);
@@ -55,6 +57,7 @@ namespace ixiaBackend_application.Controllers
         /// </summary>
         /// <returns>All Product Details</returns>
         [HttpGet("GetAllProduct")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllProductAsync()
         {
             var result = await _productService.GetAllProductsAsync();

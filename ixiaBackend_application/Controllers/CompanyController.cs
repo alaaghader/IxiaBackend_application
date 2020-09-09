@@ -2,6 +2,7 @@
 using ixiaBackend_application.Helpers;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ixiaBackend_application.Controllers
@@ -22,6 +23,7 @@ namespace ixiaBackend_application.Controllers
         /// </summary>
         /// <param name="companyInput">Company input</param>
         [HttpPost("AddCompany")]
+        [AllowAnonymous]
         public async Task<IActionResult> AddCompanyAsync(CompanyInput companyInput)
         {
             var result = await _companyService.AddCompanyAsync(companyInput);
@@ -33,6 +35,7 @@ namespace ixiaBackend_application.Controllers
         /// </summary>
         /// <returns>All Companies Details</returns>
         [HttpGet("GetCompanies")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCompaniesAsync()
         {
             var result = await _companyService.GetCompaniesAsync();

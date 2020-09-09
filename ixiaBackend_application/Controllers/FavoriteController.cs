@@ -42,12 +42,13 @@ namespace ixiaBackend_application.Controllers
         /// <summary>
         /// Toggle Favorite
         /// </summary>
-        /// <param name="id">User id</param>
-        /// <param name="prodId">Product id</param>
-        [HttpPost("ToggleFavorite")]
-        public async Task<IActionResult> ToggleFavoritesAsync(string id,int prodId)
+        /// <param name="id">Product id</param>
+        [HttpPost("ToggleFavorite/{id}")]
+        [Authorize]
+        public async Task<IActionResult> ToggleFavoritesAsync(int id)
         {
-            var result = await _favoriteService.ToggleProductFavoriteAsync(id, prodId);
+            var user = await userManager.GetUserAsync(User);
+            var result = await _favoriteService.ToggleProductFavoriteAsync(user.Id, id);
             return result.ToActionResult();
         }
     }

@@ -54,8 +54,7 @@ namespace ixiaBackend_application.Services
             }
             else
             {
-                _context.Purchases.Remove(result);
-                await _context.SaveChangesAsync();
+                return Result.Conflict<bool>().With(Error.ProductAlreadyOrdered());
             }
             return true;
         }

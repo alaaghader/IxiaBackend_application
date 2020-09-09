@@ -31,6 +31,7 @@ namespace ixiaBackend_application
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<Security>(config.GetSection(nameof(Security)));
+            services.Configure<AppSettings>(config.GetSection(nameof(AppSettings)));
 
             services.AddControllers()
                 .AddNewtonsoftJson(JsonOptions);
