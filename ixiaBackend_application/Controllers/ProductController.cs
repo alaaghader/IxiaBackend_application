@@ -48,8 +48,17 @@ namespace ixiaBackend_application.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SearchProductAsync(SearchInput input)
         {
-            var result = await _productService.SearchProductsAsync(input.Name);
-            return result.ToActionResult();
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                var result = await _productService.SearchProductsAsync(input.Name ,null);
+                return result.ToActionResult();
+            }
+            else
+            {
+                var result = await _productService.SearchProductsAsync(input.Name, user.Id);
+                return result.ToActionResult();
+            }
         }
 
         /// <summary>
@@ -60,8 +69,17 @@ namespace ixiaBackend_application.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetAllProductAsync()
         {
-            var result = await _productService.GetAllProductsAsync();
-            return result.ToActionResult();
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                var result = await _productService.GetAllProductsAsync(null);
+                return result.ToActionResult();
+            }
+            else
+            {
+                var result = await _productService.GetAllProductsAsync(user.Id);
+                return result.ToActionResult();
+            }
         }
 
         /// <summary>

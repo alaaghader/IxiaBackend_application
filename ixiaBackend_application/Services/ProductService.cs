@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ixiaBackend_application.Services
 {
@@ -43,23 +44,33 @@ namespace ixiaBackend_application.Services
             return true;
         }
 
-        public async Task<Result<List<ProductView>>> GetAllProductsAsync()
+        public async Task<Result<List<ProductView>>> GetAllProductsAsync(string userId)
         {
             var result = await (from product in _context.Products
-                                select product)
-                                .ProjectTo<ProductView>(_mapper.ConfigurationProvider)
-                                .ToListAsync();
+                                select _mapper.Map(product, new ProductView
+                                {
+                                    TotalFavorite = _context.Favorites.Select(x => x.ProductId == product.Id).Count(),
+                                    IsFavorite = userId != null && _context.Favorites
+                                    .Any(x => x.UserId == userId && x.ProductId == product.Id),
+                                    Category = _mapper.Map(product.Category, new CategoryView { }),
+                                    Company = _mapper.Map(product.Company, new CompanyView { }),
+                                })).ToListAsync();
 
             return result;
         }
 
-        public async Task<Result<List<ProductView>>> SearchProductsAsync(string name)
+        public async Task<Result<List<ProductView>>> SearchProductsAsync(string name, string userId)
         {
             var result = await (from product in _context.Products
                                 where product.Name.Contains(name)
-                                select product)
-                                .ProjectTo<ProductView>(_mapper.ConfigurationProvider)
-                                .ToListAsync();
+                                select _mapper.Map(product, new ProductView
+                                {
+                                    TotalFavorite = _context.Favorites.Select(x => x.ProductId == product.Id).Count(),
+                                    IsFavorite = userId != null && _context.Favorites
+                                    .Any(x => x.UserId == userId && x.ProductId == product.Id),
+                                    Category = _mapper.Map(product.Category, new CategoryView { }),
+                                    Company = _mapper.Map(product.Company, new CompanyView { }),
+                                })).ToListAsync();
 
             return result;
         }
@@ -71,6 +82,8 @@ namespace ixiaBackend_application.Services
                                 select _mapper.Map(product, new ProductView {
                                     IsFavorite = userId != null && _context.Favorites
                                     .Any(x => x.UserId == userId && x.ProductId == product.Id),
+                                    Category = _mapper.Map(product.Category, new CategoryView { }),
+                                    Company = _mapper.Map(product.Company, new CompanyView { }),
                                 }))
                                 .FirstAsync();
 

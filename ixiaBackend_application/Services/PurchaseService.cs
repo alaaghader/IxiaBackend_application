@@ -31,9 +31,16 @@ namespace ixiaBackend_application.Services
                                join user in _context.Users
                                on purchases.UserId equals user.Id
                                where user.Id == userId
-                               select purchases)
-                                 .ProjectTo<PurchaseView>(_mapper.ConfigurationProvider)
-                                 .ToListAsync();
+                               select _mapper.Map(purchases, new PurchaseView
+                               {
+                                   Product = _mapper.Map(purchases.Product, new ProductView {
+                                       TotalFavorite = _context.Favorites.Select(x => x.ProductId == purchases.Product.Id).Count(),
+                                       IsFavorite = userId != null && _context.Favorites
+                                            .Any(x => x.UserId == userId && x.ProductId == purchases.Product.Id),
+                                       Category = _mapper.Map(purchases.Product.Category, new CategoryView { }),
+                                       Company = _mapper.Map(purchases.Product.Company, new CompanyView { }),
+                                   }),
+                               })).ToListAsync();
             return result;
         }
 
