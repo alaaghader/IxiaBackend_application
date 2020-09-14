@@ -57,6 +57,18 @@
             <param name="id">Company id</param>
             <returns>Company Details</returns>
         </member>
+        <member name="M:ixiaBackend_application.Controllers.CountryController.AddCountryAsync(System.String)">
+            <summary>
+            Add Country
+            </summary>
+            <param name="countryName">Country name</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.CurrencyController.AddCurrencyAsync(System.String)">
+            <summary>
+            Add Currency
+            </summary>
+            <param name="currencyName">Currency name</param>
+        </member>
         <member name="M:ixiaBackend_application.Controllers.FavoriteController.GetAllFavoritesAsync">
             <summary>
             Get All Favorites
@@ -68,6 +80,25 @@
             Toggle Favorite
             </summary>
             <param name="id">Product id</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.PriceController.AddPriceAsync(ixiaBackend_application.ModelsInput.PriceInput)">
+            <summary>
+            Add Price
+            </summary>
+            <param name="productInput">Price input</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.PriceController.GetPriceAsync(System.String)">
+            <summary>
+            Get Price By User Country
+            </summary>
+            <param name="countryName">Country name</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.PriceController.SearchPriceAsync(System.String,System.String)">
+            <summary>
+            Search Price By User Country
+            </summary>
+            <param name="countryName">Country name</param>
+            /// <param name="prodName">Product name</param>
         </member>
         <member name="M:ixiaBackend_application.Controllers.ProductController.AddProductAsync(ixiaBackend_application.ModelsInput.ProductInput)">
             <summary>

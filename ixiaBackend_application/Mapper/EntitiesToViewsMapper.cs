@@ -17,6 +17,9 @@ namespace ixiaBackend_application.Mapper
             CreateMap<Category, CategoryView>();
             CreateMap<Company, CompanyView>();
             CreateMap<IdentityUser, UserView>();
+            CreateMap<Currency, CurrencyView>();
+            CreateMap<Country, CountryView>();
+            CreateMap<Price, PriceView>();
         }
     }
 }

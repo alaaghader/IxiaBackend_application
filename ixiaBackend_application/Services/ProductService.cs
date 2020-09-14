@@ -4,11 +4,9 @@ using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Models.ModelsView;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
@@ -34,7 +32,6 @@ namespace ixiaBackend_application.Services
                 Name = productInput.Name,
                 Description = productInput.Description,
                 ImageUrl = productInput.ImageUrl,
-                Price = productInput.Price,
                 CompanyId = productInput.CompanyId,
             };
 

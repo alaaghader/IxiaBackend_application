@@ -14,6 +14,9 @@ namespace ixiaBackend_application.Models
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Price> Prices { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +53,24 @@ namespace ixiaBackend_application.Models
                 entity.HasKey(e => new { e.UserId, e.ProductId });
                 entity.HasOne(e => e.User).WithMany(e => e.Favorites);
                 entity.HasOne(e => e.Product).WithMany(e => e.Favorites);
+            });
+
+            modelBuilder.Entity<Price>(entity =>
+            {
+                entity.HasKey(e => new { e.ProductId, e.CountryId, e.CurrencyId });
+                entity.HasOne(e => e.Country).WithMany(e => e.Prices);
+                entity.HasOne(e => e.Product).WithMany(e => e.Prices);
+                entity.HasOne(e => e.Currency).WithMany(e => e.Prices);
+            });
+
+            modelBuilder.Entity<Country>(entity => 
+            {
+                entity.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<Currency>(entity =>
+            {
+                entity.HasKey(e => e.Id);
             });
         }
     }
