@@ -34,6 +34,9 @@ namespace ixiaBackend_application.Services
                                 {
                                     Price = _mapper.Map(favorites, new PriceView
                                     {
+                                        PriceNumber = _context.Prices.SingleOrDefault(x => x.ProductId == favorites.ProductId && 
+                                                        x.CountryId == favorites.CountryId && x.CurrencyId == favorites.CurrencyId)
+                                                        .PriceNumber,
                                         Product = _mapper.Map(favorites.Product, new ProductView {
                                             TotalFavorite = _context.Favorites.Select(x => x.ProductId == favorites.ProductId).Count(),
                                             IsFavorite = userId != null && _context.Favorites
