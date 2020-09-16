@@ -28,42 +28,43 @@ namespace ixiaBackend_application.Models
             {
                 entity.HasKey(e => e.Id);
             });
-        
+
             modelBuilder.Entity<Product>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.HasOne(e => e.Company).WithMany(e => e.Products);
                 entity.HasOne(e => e.Category).WithMany(e => e.Products);
             });
-        
+
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.HasKey(e => e.Id);
             });
-        
+
             modelBuilder.Entity<Purchase>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.ProductId });
+                entity.HasKey(e => e.Id);
                 entity.HasOne(e => e.User).WithMany(e => e.Purchases);
                 entity.HasOne(e => e.Product).WithMany(e => e.Purchases);
+                entity.HasOne(e => e.Currency).WithMany(e => e.PurchasesCurrency);
+                entity.HasOne(e => e.Country).WithMany(e => e.PurchasesCountry);
             });
-        
+
             modelBuilder.Entity<Favorite>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.ProductId });
+                entity.HasKey(e => new { e.UserId, e.ProductId, e.CountryId, e.CurrencyId });
                 entity.HasOne(e => e.User).WithMany(e => e.Favorites);
                 entity.HasOne(e => e.Product).WithMany(e => e.Favorites);
+                entity.HasOne(e => e.Country).WithMany(e => e.FavoritesCountry);
+                entity.HasOne(e => e.Currency).WithMany(e => e.FavoritesCurrency);
             });
 
             modelBuilder.Entity<Price>(entity =>
             {
                 entity.HasKey(e => new { e.ProductId, e.CountryId, e.CurrencyId });
-                entity.HasOne(e => e.Country).WithMany(e => e.Prices);
-                entity.HasOne(e => e.Product).WithMany(e => e.Prices);
-                entity.HasOne(e => e.Currency).WithMany(e => e.Prices);
             });
 
-            modelBuilder.Entity<Country>(entity => 
+            modelBuilder.Entity<Country>(entity =>
             {
                 entity.HasKey(e => e.Id);
             });

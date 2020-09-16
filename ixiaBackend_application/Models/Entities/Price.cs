@@ -1,4 +1,6 @@
-﻿namespace ixiaBackend_application.Models.Entities
+﻿using System.Collections.Generic;
+
+namespace ixiaBackend_application.Models.Entities
 {
     public class Price
     {

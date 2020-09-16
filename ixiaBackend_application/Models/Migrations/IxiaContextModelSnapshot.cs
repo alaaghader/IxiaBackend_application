@@ -307,10 +307,20 @@ namespace ixiaBackend_application.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("FavoriteTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("UserId", "ProductId");
+                    b.HasKey("UserId", "ProductId", "CountryId", "CurrencyId");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("ProductId");
 
@@ -373,21 +383,38 @@ namespace ixiaBackend_application.Migrations
 
             modelBuilder.Entity("ixiaBackend_application.Models.Entities.Purchase", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("PurchaseTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("UserId", "ProductId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Purchases");
                 });
@@ -473,6 +500,18 @@ namespace ixiaBackend_application.Migrations
 
             modelBuilder.Entity("ixiaBackend_application.Models.Entities.Favorite", b =>
                 {
+                    b.HasOne("ixiaBackend_application.Models.Entities.Country", "Country")
+                        .WithMany("FavoritesCountry")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ixiaBackend_application.Models.Entities.Currency", "Currency")
+                        .WithMany("FavoritesCurrency")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ixiaBackend_application.Models.Entities.Product", "Product")
                         .WithMany("Favorites")
                         .HasForeignKey("ProductId")
@@ -524,6 +563,18 @@ namespace ixiaBackend_application.Migrations
 
             modelBuilder.Entity("ixiaBackend_application.Models.Entities.Purchase", b =>
                 {
+                    b.HasOne("ixiaBackend_application.Models.Entities.Country", "Country")
+                        .WithMany("PurchasesCountry")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ixiaBackend_application.Models.Entities.Currency", "Currency")
+                        .WithMany("PurchasesCurrency")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ixiaBackend_application.Models.Entities.Product", "Product")
                         .WithMany("Purchases")
                         .HasForeignKey("ProductId")
@@ -532,9 +583,7 @@ namespace ixiaBackend_application.Migrations
 
                     b.HasOne("ixiaBackend_application.Models.Entities.User", "User")
                         .WithMany("Purchases")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

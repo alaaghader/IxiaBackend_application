@@ -1,7 +1,9 @@
 ﻿using ixiaBackend_application.Helpers;
+using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -12,10 +14,13 @@ namespace ixiaBackend_application.Controllers
     public class PriceController : Controller
     {
         private IPriceService _priceService;
+        private readonly UserManager<User> userManager;
 
-        public PriceController(IPriceService priceService) 
+        public PriceController(IPriceService priceService,
+            UserManager<User> userManager) 
         {
             _priceService = priceService;
+            this.userManager = userManager;
         }
 
         /// <summary>
@@ -35,12 +40,21 @@ namespace ixiaBackend_application.Controllers
         /// Get Price By User Country
         /// </summary>
         /// <param name="countryName">Country name</param>
-        [HttpGet("GetPrices")]
+        [HttpGet("GetPrices/{countryName}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetPriceAsync(string countryName)
         {
-            var result = await _priceService.GetPricesByCountry(countryName);
-            return result.ToActionResult();
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                var result = await _priceService.GetPricesByCountry(countryName,null );
+                return result.ToActionResult();
+            }
+            else
+            {
+                var result = await _priceService.GetPricesByCountry(countryName, user.Id);
+                return result.ToActionResult();
+            }
         }
 
         /// <summary>
@@ -52,8 +66,17 @@ namespace ixiaBackend_application.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SearchPriceAsync(string countryName, string prodName)
         {
-            var result = await _priceService.SearchPricesByCountry(countryName, prodName);
-            return result.ToActionResult();
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                var result = await _priceService.SearchPricesByCountry(countryName, prodName, null);
+                return result.ToActionResult();
+            }
+            else
+            {
+                var result = await _priceService.SearchPricesByCountry(countryName, prodName, user.Id);
+                return result.ToActionResult();
+            }
         }
     }
 }

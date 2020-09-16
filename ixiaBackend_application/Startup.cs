@@ -48,11 +48,6 @@ namespace ixiaBackend_application
 
             services.AddAuthentication(AuthenitcationOptions)
                 .AddJwtBearer(JwtOptions);
-            //   .AddGoogle(googleOptions =>
-            //   {
-            //       googleOptions.ClientId = "717521932893-jajh3aifsgjni4kvigtjaqoht2m7ucmc.apps.googleusercontent.com";
-            //       googleOptions.ClientSecret = "VAj-qr_NXnsrkcrqQNrtOawD";
-            //   }); 
 
             services.AddMvc();
 

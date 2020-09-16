@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using ixiaBackend_application.Models;
 using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Models.ModelsView;
@@ -14,7 +13,6 @@ namespace ixiaBackend_application.Services
 {
     public class PurchaseService : IPurchaseService
     {
-
         private readonly IxiaContext _context;
         private readonly IMapper _mapper;
 
@@ -33,13 +31,17 @@ namespace ixiaBackend_application.Services
                                where user.Id == userId
                                select _mapper.Map(purchases, new PurchaseView
                                {
-                                   Product = _mapper.Map(purchases.Product, new ProductView {
-                                       TotalFavorite = _context.Favorites.Select(x => x.ProductId == purchases.Product.Id).Count(),
-                                       IsFavorite = userId != null && _context.Favorites
-                                            .Any(x => x.UserId == userId && x.ProductId == purchases.Product.Id),
-                                       Category = _mapper.Map(purchases.Product.Category, new CategoryView { }),
-                                       Company = _mapper.Map(purchases.Product.Company, new CompanyView { }),
-                                   }),
+                                   Price = {
+                                         Product = {
+                                            TotalFavorite = _context.Favorites.Select(x => x.ProductId == purchases.ProductId).Count(),
+                                            IsFavorite = userId != null && _context.Favorites
+                                            .Any(x => x.UserId == userId && x.ProductId == purchases.ProductId),
+                                            Category = _mapper.Map(purchases.Product.Category, new CategoryView { }),
+                                            Company = _mapper.Map(purchases.Product.Company, new CompanyView { }),
+                                         },
+                                         //Currency = _mapper.Map(purchases.Currency, new CurrencyView { }),
+                                        //Country = _mapper.Map(purchases.Country, new CountryView { }),
+                                    },
                                })).ToListAsync();
             return result;
         }

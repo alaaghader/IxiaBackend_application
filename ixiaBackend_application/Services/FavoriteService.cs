@@ -32,14 +32,17 @@ namespace ixiaBackend_application.Services
                                 where user.Id == userId
                                 select _mapper.Map(favorites, new FavoriteView
                                 {
-                                    Product = _mapper.Map(favorites.Product, new ProductView
-                                    {
-                                        TotalFavorite = _context.Favorites.Select(x => x.ProductId == favorites.Product.Id).Count(),
-                                        IsFavorite = userId != null && _context.Favorites
-                                           .Any(x => x.UserId == userId && x.ProductId == favorites.Product.Id),
-                                        Category = _mapper.Map(favorites.Product.Category, new CategoryView { }),
-                                        Company = _mapper.Map(favorites.Product.Company, new CompanyView { }),
-                                    }),
+                                    Price = {
+                                         Product = {
+                                            TotalFavorite = _context.Favorites.Select(x => x.ProductId == favorites.ProductId).Count(),
+                                            IsFavorite = userId != null && _context.Favorites
+                                            .Any(x => x.UserId == userId && x.ProductId == favorites.ProductId),
+                                            Category = _mapper.Map(favorites.Product.Category, new CategoryView { }),
+                                            Company = _mapper.Map(favorites.Product.Company, new CompanyView { }),
+                                         },
+                                         //Currency = _mapper.Map(favorites.Currency, new CurrencyView { }),
+                                        //Country = _mapper.Map(favorites.Country, new CountryView { }),
+                                    },
                                 })).ToListAsync();
             return result;
         }

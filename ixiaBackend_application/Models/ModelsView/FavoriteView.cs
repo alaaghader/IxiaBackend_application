@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ixiaBackend_application.Models.ModelsView
 {
@@ -9,7 +6,7 @@ namespace ixiaBackend_application.Models.ModelsView
     {
         public UserView User { get; set; }
 
-        public ProductView Product { get; set; }
+        public PriceView Price { get; set; }
 
         public DateTime FavoriteTime { get; set; }
     }

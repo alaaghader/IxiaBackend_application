@@ -15,8 +15,8 @@ namespace ixiaBackend_application.Models.Entities
         public string Description { get; set; }
 
         public virtual ICollection<Purchase> Purchases { get; set; }
-        public virtual ICollection<Favorite> Favorites { get; set; }
         public virtual ICollection<Price> Prices { get; set; }
+        public virtual ICollection<Favorite> Favorites { get; set; }
         public virtual Company Company { get; set; }
         public virtual Category Category { get; set; }
     }
