@@ -32,18 +32,12 @@ namespace ixiaBackend_application.Services
                                 where user.Id == userId
                                 select _mapper.Map(favorites, new FavoriteView
                                 {
-                                    Price = {
-                                         Product = _mapper.Map(favorites.Product, new ProductView
-                                   {
-                                        TotalFavorite = _context.Favorites.Select(x => x.ProductId == favorites.ProductId).Count(),
-                                        IsFavorite = userId != null && _context.Favorites
-                                        .Any(x => x.UserId == userId && x.ProductId == favorites.ProductId),
-                                        Category = _mapper.Map(favorites.Product.Category, new CategoryView { }),
-                                        Company = _mapper.Map(favorites.Product.Company, new CompanyView { }),
-                                   }),
-                                    Currency = _mapper.Map(favorites.Currency, new CurrencyView { }),
-                                    Country = _mapper.Map(favorites.Country, new CountryView { }),
-                                   },
+                                    Price = _mapper.Map(favorites, new PriceView
+                                    {
+                                        Product = _mapper.Map(favorites.Product, new ProductView { }),
+                                        Country = _mapper.Map(favorites.Country, new CountryView { }),
+                                        Currency = _mapper.Map(favorites.Currency, new CurrencyView { }),
+                                    }),
                                 })).ToListAsync();
             return result;
         }

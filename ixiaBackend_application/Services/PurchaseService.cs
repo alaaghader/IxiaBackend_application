@@ -25,24 +25,17 @@ namespace ixiaBackend_application.Services
 
         public async Task<Result<List<PurchaseView>>> GetAllPurchasesAsync(string userId)
         {
-            var result = await(from purchases in _context.Purchases
-                               join user in _context.Users
-                               on purchases.UserId equals user.Id
-                               where user.Id == userId
-                               select _mapper.Map(purchases, new PurchaseView
-                               {
-                                   Price = {
-                                         Product = _mapper.Map(purchases.Product, new ProductView
-                                   {
-                                        TotalFavorite = _context.Favorites.Select(x => x.ProductId == purchases.ProductId).Count(),
-                                        IsFavorite = userId != null && _context.Favorites
-                                        .Any(x => x.UserId == userId && x.ProductId == purchases.ProductId),
-                                        Category = _mapper.Map(purchases.Product.Category, new CategoryView { }),
-                                        Company = _mapper.Map(purchases.Product.Company, new CompanyView { }),
-                                   }),
-                                    Currency = _mapper.Map(purchases.Currency, new CurrencyView { }),
-                                    Country = _mapper.Map(purchases.Country, new CountryView { }),
-                                   },
+            var result = await (from purchases in _context.Purchases
+                                join user in _context.Users
+                                on purchases.UserId equals user.Id
+                                where user.Id == userId
+                                select _mapper.Map(purchases, new PurchaseView {
+                                    Price = _mapper.Map(purchases, new PriceView
+                                    {
+                                        Product = _mapper.Map(purchases.Product, new ProductView { }),
+                                        Country = _mapper.Map(purchases.Country, new CountryView { }),
+                                        Currency = _mapper.Map(purchases.Currency, new CurrencyView { }),
+                                    }),
                                })).ToListAsync();
             return result;
         }
