@@ -54,13 +54,14 @@ namespace ixiaBackend_application.Services
                                 where countries.Name == countryName
                                 select _mapper.Map(prices, new PriceView
                                 {
-                                    Product = {
+                                    Product = _mapper.Map(prices.Product, new ProductView
+                                    {
                                         TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                         .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
                                         Category = _mapper.Map(prices.Product.Category, new CategoryView { }),
                                         Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
-                                    },
+                                    }),
                                     Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
                                     Country = _mapper.Map(prices.Country, new CountryView { }),
                                 })).ToListAsync();
@@ -69,25 +70,51 @@ namespace ixiaBackend_application.Services
 
         public async Task<Result<List<PriceView>>> SearchPricesByCountry(string countryName, string prodName, string userId)
         {
-            var result = await(from prices in _ixiaContext.Prices
-                               join countries in _ixiaContext.Countries
-                               on prices.CountryId equals countries.Id
-                               join products in _ixiaContext.Products
-                               on prices.ProductId equals products.Id
-                               where countries.Name == countryName 
-                               && products.Name == prodName
-                               select _mapper.Map(prices, new PriceView
-                               {
-                                   Product = {
+            var result = await (from prices in _ixiaContext.Prices
+                                join countries in _ixiaContext.Countries
+                                on prices.CountryId equals countries.Id
+                                join products in _ixiaContext.Products
+                                on prices.ProductId equals products.Id
+                                where countries.Name == countryName
+                                && products.Name.Contains(prodName) 
+                                select _mapper.Map(prices, new PriceView
+                                {
+                                    Product = _mapper.Map(prices.Product, new ProductView
+                                    {
                                         TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
-                                        .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
+                                         .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
                                         Category = _mapper.Map(prices.Product.Category, new CategoryView { }),
                                         Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
-                                    },
-                                   Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
-                                   Country = _mapper.Map(prices.Country, new CountryView { }),
-                               })).ToListAsync();
+                                    }),
+                                    Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
+                                    Country = _mapper.Map(prices.Country, new CountryView { }),
+                                })).ToListAsync();
+            return result;
+        }
+
+        public async Task<Result<PriceView>> GetProductDetailsByCountryAsync(int id, string userId, string countryName)
+        {
+            var result = await (from prices in _ixiaContext.Prices
+                                join countries in _ixiaContext.Countries
+                                on prices.CountryId equals countries.Id
+                                join products in _ixiaContext.Products
+                                on prices.ProductId equals products.Id
+                                where countries.Name == countryName
+                                && products.Id == id
+                                select _mapper.Map(prices, new PriceView
+                                {
+                                    Product = _mapper.Map(prices.Product, new ProductView
+                                    {
+                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        IsFavorite = userId != null && _ixiaContext.Favorites
+                                         .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
+                                        Category = _mapper.Map(prices.Product.Category, new CategoryView { }),
+                                        Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
+                                    }),
+                                    Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
+                                    Country = _mapper.Map(prices.Country, new CountryView { }),
+                                })).SingleAsync();
             return result;
         }
     }

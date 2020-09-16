@@ -39,13 +39,15 @@ namespace ixiaBackend_application.Controllers
         /// Toggle Purchase
         /// </summary>
         /// <param name="productId">Product id</param>
+        /// <param name="countryId">Country id</param>
+        /// <param name="currencyId">Currency id</param>
         /// <param name="comments">Comments</param>
-        [HttpPost("AddPurchase/{productId}")]
+        [HttpPost("AddPurchase/{productId}/{countryId}/{currencyId}")]
         [Authorize]
-        public async Task<IActionResult> AddPurchasesAsync(int productId, string comments)
+        public async Task<IActionResult> AddPurchasesAsync(int productId, int countryId, int currencyId, string comments)
         {
             var user = await userManager.GetUserAsync(User);
-            var result = await _purchaseService.AddPurchaseAsync(user.Id, productId, comments);
+            var result = await _purchaseService.AddPurchaseAsync(user.Id, productId, countryId, currencyId, comments);
             return result.ToActionResult();
         }
     }

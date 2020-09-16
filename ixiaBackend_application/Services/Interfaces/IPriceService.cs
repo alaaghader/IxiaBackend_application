@@ -9,5 +9,6 @@ namespace ixiaBackend_application.Services.Interfaces
         Task<Result<PriceView>> AddPriceAsync(int prodiId, int countryId, int currencyId, double price);
         Task<Result<List<PriceView>>> GetPricesByCountry(string countryName, string userId);
         Task<Result<List<PriceView>>> SearchPricesByCountry(string countryName, string prodName, string userId);
+        Task<Result<PriceView>> GetProductDetailsByCountryAsync(int id, string userId, string countryName);
     }
 }

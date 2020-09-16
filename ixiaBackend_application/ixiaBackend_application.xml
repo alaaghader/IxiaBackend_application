@@ -75,11 +75,13 @@
             </summary>
             <returns>All Favorites Details</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.FavoriteController.ToggleFavoritesAsync(System.Int32)">
+        <member name="M:ixiaBackend_application.Controllers.FavoriteController.ToggleFavoritesAsync(System.Int32,System.Int32,System.Int32)">
             <summary>
             Toggle Favorite
             </summary>
             <param name="id">Product id</param>
+            <param name="countryId">Product id</param>
+            <param name="currencyId">Product id</param>
         </member>
         <member name="M:ixiaBackend_application.Controllers.PriceController.AddPriceAsync(ixiaBackend_application.ModelsInput.PriceInput)">
             <summary>
@@ -99,6 +101,13 @@
             </summary>
             <param name="countryName">Country name</param>
             /// <param name="prodName">Product name</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.PriceController.GetProductDetailsPriceAsync(System.Int32,System.String)">
+            <summary>
+            Get Product Details Price By User Country
+            </summary>
+            <param name="id">Product id</param>
+            <param name="countryName">Country name</param>
         </member>
         <member name="M:ixiaBackend_application.Controllers.ProductController.AddProductAsync(ixiaBackend_application.ModelsInput.ProductInput)">
             <summary>
@@ -152,11 +161,13 @@
             </summary>
             <returns>All Purchases Details</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.PurchaseController.AddPurchasesAsync(System.Int32,System.String)">
+        <member name="M:ixiaBackend_application.Controllers.PurchaseController.AddPurchasesAsync(System.Int32,System.Int32,System.Int32,System.String)">
             <summary>
             Toggle Purchase
             </summary>
             <param name="productId">Product id</param>
+            <param name="countryId">Country id</param>
+            <param name="currencyId">Currency id</param>
             <param name="comments">Comments</param>
         </member>
     </members>

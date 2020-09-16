@@ -33,21 +33,22 @@ namespace ixiaBackend_application.Services
                                 select _mapper.Map(favorites, new FavoriteView
                                 {
                                     Price = {
-                                         Product = {
-                                            TotalFavorite = _context.Favorites.Select(x => x.ProductId == favorites.ProductId).Count(),
-                                            IsFavorite = userId != null && _context.Favorites
-                                            .Any(x => x.UserId == userId && x.ProductId == favorites.ProductId),
-                                            Category = _mapper.Map(favorites.Product.Category, new CategoryView { }),
-                                            Company = _mapper.Map(favorites.Product.Company, new CompanyView { }),
-                                         },
-                                         //Currency = _mapper.Map(favorites.Currency, new CurrencyView { }),
-                                        //Country = _mapper.Map(favorites.Country, new CountryView { }),
-                                    },
+                                         Product = _mapper.Map(favorites.Product, new ProductView
+                                   {
+                                        TotalFavorite = _context.Favorites.Select(x => x.ProductId == favorites.ProductId).Count(),
+                                        IsFavorite = userId != null && _context.Favorites
+                                        .Any(x => x.UserId == userId && x.ProductId == favorites.ProductId),
+                                        Category = _mapper.Map(favorites.Product.Category, new CategoryView { }),
+                                        Company = _mapper.Map(favorites.Product.Company, new CompanyView { }),
+                                   }),
+                                    Currency = _mapper.Map(favorites.Currency, new CurrencyView { }),
+                                    Country = _mapper.Map(favorites.Country, new CountryView { }),
+                                   },
                                 })).ToListAsync();
             return result;
         }
 
-        public async Task<Result<bool>> ToggleProductFavoriteAsync(string userId, int productId)
+        public async Task<Result<bool>> ToggleProductFavoriteAsync(string userId, int productId, int countryId, int currencyId)
         {
             var result = await _context.Favorites.SingleOrDefaultAsync(e => e.UserId == userId && e.ProductId == productId);
             if(result == null)
@@ -56,6 +57,8 @@ namespace ixiaBackend_application.Services
                 {
                     UserId = userId,
                     ProductId = productId,
+                    CountryId = countryId,
+                    CurrencyId = currencyId,
                     FavoriteTime = DateTime.Now,
                 };
                 await _context.Favorites.AddAsync(newRecord);

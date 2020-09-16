@@ -62,7 +62,7 @@ namespace ixiaBackend_application.Controllers
         /// </summary>
         /// <param name="countryName">Country name</param>
         /// /// <param name="prodName">Product name</param>
-        [HttpPost("SearchPrices")]
+        [HttpPost("SearchPrices/{countryName}/{prodName}")]
         [AllowAnonymous]
         public async Task<IActionResult> SearchPriceAsync(string countryName, string prodName)
         {
@@ -75,6 +75,28 @@ namespace ixiaBackend_application.Controllers
             else
             {
                 var result = await _priceService.SearchPricesByCountry(countryName, prodName, user.Id);
+                return result.ToActionResult();
+            }
+        }
+
+        /// <summary>
+        /// Get Product Details Price By User Country
+        /// </summary>
+        /// <param name="id">Product id</param>
+        /// <param name="countryName">Country name</param>
+        [HttpPost("GetProductDetailsPrice/{id}/{countryName}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProductDetailsPriceAsync(int id, string countryName)
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                var result = await _priceService.GetProductDetailsByCountryAsync(id, null, countryName);
+                return result.ToActionResult();
+            }
+            else
+            {
+                var result = await _priceService.GetProductDetailsByCountryAsync(id, user.Id, countryName);
                 return result.ToActionResult();
             }
         }

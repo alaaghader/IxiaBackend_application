@@ -32,39 +32,35 @@ namespace ixiaBackend_application.Services
                                select _mapper.Map(purchases, new PurchaseView
                                {
                                    Price = {
-                                         Product = {
-                                            TotalFavorite = _context.Favorites.Select(x => x.ProductId == purchases.ProductId).Count(),
-                                            IsFavorite = userId != null && _context.Favorites
-                                            .Any(x => x.UserId == userId && x.ProductId == purchases.ProductId),
-                                            Category = _mapper.Map(purchases.Product.Category, new CategoryView { }),
-                                            Company = _mapper.Map(purchases.Product.Company, new CompanyView { }),
-                                         },
-                                         //Currency = _mapper.Map(purchases.Currency, new CurrencyView { }),
-                                        //Country = _mapper.Map(purchases.Country, new CountryView { }),
-                                    },
+                                         Product = _mapper.Map(purchases.Product, new ProductView
+                                   {
+                                        TotalFavorite = _context.Favorites.Select(x => x.ProductId == purchases.ProductId).Count(),
+                                        IsFavorite = userId != null && _context.Favorites
+                                        .Any(x => x.UserId == userId && x.ProductId == purchases.ProductId),
+                                        Category = _mapper.Map(purchases.Product.Category, new CategoryView { }),
+                                        Company = _mapper.Map(purchases.Product.Company, new CompanyView { }),
+                                   }),
+                                    Currency = _mapper.Map(purchases.Currency, new CurrencyView { }),
+                                    Country = _mapper.Map(purchases.Country, new CountryView { }),
+                                   },
                                })).ToListAsync();
             return result;
         }
 
-        public async Task<Result<bool>> AddPurchaseAsync(string userId, int productId, string comments)
+        public async Task<Result<bool>> AddPurchaseAsync(string userId, int productId, int countryId, int currencyId, string comments)
         {
-            var result = await _context.Purchases.SingleOrDefaultAsync(e => e.UserId == userId && e.ProductId == productId);
-            if (result == null)
+            var newRecord = new Purchase
             {
-                var newRecord = new Purchase
-                {
-                    UserId = userId,
-                    ProductId = productId,
-                    PurchaseTime = DateTime.Now,
-                    Comments = comments,
-                };
-                await _context.Purchases.AddAsync(newRecord);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                return Result.Conflict<bool>().With(Error.ProductAlreadyOrdered());
-            }
+                UserId = userId,
+                ProductId = productId,
+                CountryId = countryId,
+                CurrencyId = currencyId,
+                PurchaseTime = DateTime.Now,
+                Comments = comments,
+            };
+            await _context.Purchases.AddAsync(newRecord);
+            await _context.SaveChangesAsync();
+            
             return true;
         }
     }
