@@ -38,7 +38,7 @@ namespace ixiaBackend_application.Controllers
         /// <returns>A valid access token</returns>
         [HttpPost("SignUp")]
         [Produces(typeof(Result<TokenView>))]
-        public async Task<IActionResult> SignUpAsync([FromForm] SignupInput input)
+        public async Task<IActionResult> SignUpAsync(SignupInput input)
         {
             var result = await _account.CreateUserAsync(input);
             return result.ToActionResult();

@@ -4,7 +4,6 @@ using ixiaBackend_application.Models.ModelsView;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Options;
 using ixiaBackend_application.Services.Interfaces;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -22,19 +21,16 @@ namespace ixiaBackend_application.Services
         private readonly SignInManager<User> signInManager;
         private readonly IxiaContext _context;
         private readonly Security securityOptions;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
         public AccountService(UserManager<User> userManager,
             SignInManager<User> signInManager,
             IxiaContext ixiaContext,
-            IOptions<Security> securityOptions,
-            IWebHostEnvironment hostEnvironment)
+            IOptions<Security> securityOptions)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             _context = ixiaContext;
             this.securityOptions = securityOptions.Value;
-            this.webHostEnvironment = hostEnvironment;
         }
 
         public async Task<Result<TokenView>> CreateUserAsync(SignupInput signUpInput)
@@ -46,8 +42,6 @@ namespace ixiaBackend_application.Services
                 return Result.Conflict<TokenView>().With(Error.EmailAlreadyExists(user.Provider));
             }
 
-            string uniqueFileName = UploadedFile(signUpInput);
-
             var newUser = new User
             {
                 FirstName = signUpInput.FirstName,
@@ -55,7 +49,6 @@ namespace ixiaBackend_application.Services
                 UserName = signUpInput.UserName,
                 Email = signUpInput.Email,
                 Provider = "Ixia",
-                ProfilePicture = uniqueFileName,
             };
 
             SigninInput signInInput = new SigninInput
@@ -77,34 +70,6 @@ namespace ixiaBackend_application.Services
             }
 
             return await SignInAsync(signInInput);
-        }
-
-        private string UploadedFile(SignupInput model)
-        {
-            try
-            {
-                if (model.ProfileImage.Length > 0)
-                {
-                    if (!Directory.Exists(webHostEnvironment.WebRootPath + "\\Upload\\"))
-                    {
-                        Directory.CreateDirectory(webHostEnvironment.WebRootPath + "\\Upload\\");
-                    }
-                    using (FileStream fileStream = System.IO.File.Create(webHostEnvironment.WebRootPath + "\\Upload\\" + model.ProfileImage.FileName))
-                    {
-                        model.ProfileImage.CopyTo(fileStream);
-                        fileStream.Flush();
-                        return "\\Upload\\" + model.ProfileImage.FileName;
-                    }
-                }
-                else 
-                {
-                    return "Failed";
-                }
-            }
-            catch (Exception e) 
-            {
-                return e.Message.ToString();
-            }
         }
 
         public async Task<Result<TokenView>> SignInAsync(SigninInput signInInput)
