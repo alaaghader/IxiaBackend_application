@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,5 +13,6 @@ namespace ixiaBackend_application.ModelsInput
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public IFormFile ProfileImage { get; set; }
     }
 }

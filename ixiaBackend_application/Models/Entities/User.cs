@@ -13,6 +13,7 @@ namespace ixiaBackend_application.Models.Entities
         public string Address { get; set; }
         public string Token { get; set; }
         public string Provider { get; set; }
+        public string ProfilePicture { get; set; }
 
         public virtual ICollection<Purchase> Purchases { get; set; }
         public virtual ICollection<Favorite> Favorites { get; set; }

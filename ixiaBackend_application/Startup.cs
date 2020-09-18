@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace ixiaBackend_application
 {
@@ -75,6 +76,10 @@ namespace ixiaBackend_application
             {
                 app.UseDeveloperExceptionPage();
             }
+            else 
+            {
+                app.UseHsts();
+            }
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
@@ -86,9 +91,16 @@ namespace ixiaBackend_application
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("api", "api/{controller}/{action}/{id?}");
+            });
+
+            app.Run(async(context) => 
+            {
+                await context.Response.WriteAsync("Could Not Find Anything");
             });
         }
     }
