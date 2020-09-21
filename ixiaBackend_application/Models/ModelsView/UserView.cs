@@ -15,6 +15,5 @@ namespace ixiaBackend_application.Models.ModelsView
         public string Token { get; set; }
         public string Provider { get; set; }
         public string ProfilePicture { get; set; }
-        public VirtualFileResult ProfilePictureImg { get; set; }
     }
 }

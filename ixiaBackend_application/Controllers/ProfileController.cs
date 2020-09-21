@@ -34,7 +34,6 @@ namespace ixiaBackend_application.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             var result = await _profileService.GetUserAsync(user.Id);
-            result.Payload.ProfilePictureImg = GetImage(user.ProfilePicture);
             return result.ToActionResult();
         }
 
@@ -62,7 +61,6 @@ namespace ixiaBackend_application.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             var result = await _profileService.UpdateProfileAsync(user.Id, profileInput);
-            result.Payload.ProfilePictureImg = GetImage(user.ProfilePicture);
             return result.ToActionResult();
         }
 
