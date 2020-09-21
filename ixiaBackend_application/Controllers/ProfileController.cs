@@ -6,6 +6,7 @@ using ixiaBackend_application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using System.IO;
 
 namespace ixiaBackend_application.Controllers
 {
@@ -33,6 +34,7 @@ namespace ixiaBackend_application.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             var result = await _profileService.GetUserAsync(user.Id);
+            result.Payload.ProfilePictureImg = GetImage(user.ProfilePicture);
             return result.ToActionResult();
         }
 
@@ -60,7 +62,15 @@ namespace ixiaBackend_application.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             var result = await _profileService.UpdateProfileAsync(user.Id, profileInput);
+            result.Payload.ProfilePictureImg = GetImage(user.ProfilePicture);
             return result.ToActionResult();
+        }
+
+        [HttpGet("get/{imgPath}")]
+        public VirtualFileResult GetImage(string imgPath)
+        {
+            var path = Path.Combine("\\Upload\\", imgPath);
+            return File(path, "image/png");
         }
     }
 }

@@ -5,6 +5,7 @@ using ixiaBackend_application.Models.ModelsView;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
@@ -47,6 +48,7 @@ namespace ixiaBackend_application.Services
         {
             var user = await _context.Users.SingleOrDefaultAsync(e => e.Id == userId);
             _mapper.Map(profileInput, user);
+            user.ProfilePicture = UploadedFile(profileInput);
             await _context.SaveChangesAsync();
             return _mapper.Map<UserView>(user);
         }
@@ -61,11 +63,11 @@ namespace ixiaBackend_application.Services
                     {
                         Directory.CreateDirectory(webHostEnvironment.WebRootPath + "\\Upload\\");
                     }
-                    using (FileStream fileStream = System.IO.File.Create(webHostEnvironment.WebRootPath + "\\Upload\\" + model.ProfileImage.FileName))
+                    using (FileStream fileStream = File.Create(webHostEnvironment.WebRootPath + "\\Upload\\" + model.ProfileImage.FileName))
                     {
                         model.ProfileImage.CopyTo(fileStream);
                         fileStream.Flush();
-                        return "\\Upload\\" + model.ProfileImage.FileName;
+                        return model.ProfileImage.FileName;
                     }
                 }
                 else

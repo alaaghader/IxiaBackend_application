@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ixiaBackend_application.Models.ModelsView
 {
@@ -17,5 +15,6 @@ namespace ixiaBackend_application.Models.ModelsView
         public string Token { get; set; }
         public string Provider { get; set; }
         public string ProfilePicture { get; set; }
+        public VirtualFileResult ProfilePictureImg { get; set; }
     }
 }
