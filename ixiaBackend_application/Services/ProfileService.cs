@@ -5,7 +5,7 @@ using ixiaBackend_application.Models.ModelsView;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
@@ -48,26 +48,33 @@ namespace ixiaBackend_application.Services
         {
             var user = await _context.Users.SingleOrDefaultAsync(e => e.Id == userId);
             _mapper.Map(profileInput, user);
-            user.ProfilePicture = UploadedFile(profileInput);
             await _context.SaveChangesAsync();
             return _mapper.Map<UserView>(user);
         }
 
-        private string UploadedFile(ProfileInput model)
+        public async  Task<Result<UserView>> UpdateProfilePicture(string userId, ProfileImageInput profileImageInput)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(e => e.Id == userId);
+            user.ProfilePicture = UploadedFile(profileImageInput.Img);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<UserView>(user);
+        }
+
+        private string UploadedFile(IFormFile model)
         {
             try
             {
-                if (model.ProfileImage.Length > 0)
+                if (model.Length > 0)
                 {
                     if (!Directory.Exists(webHostEnvironment.WebRootPath + "\\Upload\\"))
                     {
                         Directory.CreateDirectory(webHostEnvironment.WebRootPath + "\\Upload\\");
                     }
-                    using (FileStream fileStream = File.Create(webHostEnvironment.WebRootPath + "\\Upload\\" + model.ProfileImage.FileName))
+                    using (FileStream fileStream = File.Create(webHostEnvironment.WebRootPath + "\\Upload\\" + model.FileName))
                     {
-                        model.ProfileImage.CopyTo(fileStream);
+                        model.CopyTo(fileStream);
                         fileStream.Flush();
-                        return model.ProfileImage.FileName;
+                        return model.FileName;
                     }
                 }
                 else

@@ -155,6 +155,14 @@
             <param name="profileInput">User profile input</param>
             <returns>Update Profile</returns>
         </member>
+        <member name="M:ixiaBackend_application.Controllers.ProfileController.UpdateProfilePictureAsync(ixiaBackend_application.ModelsInput.ProfileImageInput)">
+            <summary>
+            Update Profile 
+            pivture
+            </summary>
+            <param name="profileImageInput">User profile picture</param>
+            <returns>Update Profile</returns>
+        </member>
         <member name="M:ixiaBackend_application.Controllers.PurchaseController.GetAllPurchasesAsync">
             <summary>
             Get All Purchases Details

@@ -57,10 +57,25 @@ namespace ixiaBackend_application.Controllers
         /// <returns>Update Profile</returns>
         [HttpPost("EditProfile")]
         [Authorize]
-        public async Task<IActionResult> UpdateProfileAsync([FromForm] ProfileInput profileInput)
+        public async Task<IActionResult> UpdateProfileAsync(ProfileInput profileInput)
         {
             var user = await userManager.GetUserAsync(User);
             var result = await _profileService.UpdateProfileAsync(user.Id, profileInput);
+            return result.ToActionResult();
+        }
+
+        /// <summary>
+        /// Update Profile 
+        /// pivture
+        /// </summary>
+        /// <param name="profileImageInput">User profile picture</param>
+        /// <returns>Update Profile</returns>
+        [HttpPost("EditProfilePicture")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfilePictureAsync([FromForm] ProfileImageInput profileImageInput)
+        {
+            var user = await userManager.GetUserAsync(User);
+            var result = await _profileService.UpdateProfilePicture(user.Id, profileImageInput);
             return result.ToActionResult();
         }
 

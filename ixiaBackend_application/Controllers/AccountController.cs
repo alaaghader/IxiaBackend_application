@@ -1,9 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using ixiaBackend_application.Helpers;
 using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Models.ModelsView;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -81,6 +85,17 @@ namespace ixiaBackend_application.Controllers
         {
             var result = await _account.SignInWithGoogle(input);
             return result.ToActionResult();
+        }
+
+        [HttpGet("hashem/{token}")]
+        [AllowAnonymous]
+        public async Task<HttpStatusCode> ValidateTokenAsync(string token) {
+            var userInfoUrl = "http://localhost:5000/api/Profile"; 
+            var hc = new HttpClient();
+            hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = hc.GetAsync(userInfoUrl).Result;
+            dynamic userInfo = response.Content.ReadAsStringAsync().Result;
+            return response.StatusCode;
         }
 
         //  [HttpGet("hi")]
