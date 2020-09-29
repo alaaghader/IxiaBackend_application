@@ -3,7 +3,7 @@
     public class ProductView
     {
         public int Id { get; set; }
-        public CategoryView Category { get; set; }
+        public TypeView Type { get; set; }
         public CompanyView Company { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }

@@ -23,6 +23,9 @@ namespace ixiaBackend_application.Mapper
             CreateMap<Currency, ProductView>();
             CreateMap<Favorite, PriceView>();
             CreateMap<Purchase, PriceView>();
+            CreateMap<Type, TypeView>();
+            CreateMap<Brand, BrandsView>();
+            CreateMap<Sub_Category, Sub_CategoryView>();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using ixiaBackend_application.Models;
 using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Models.ModelsView;
@@ -59,7 +58,7 @@ namespace ixiaBackend_application.Services
                                         TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                         .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
-                                        Category = _mapper.Map(prices.Product.Category, new CategoryView { }),
+                                        Type = _mapper.Map(prices.Product.Type, new TypeView { }),
                                         Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
                                     }),
                                     Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
@@ -84,7 +83,7 @@ namespace ixiaBackend_application.Services
                                         TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                          .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
-                                        Category = _mapper.Map(prices.Product.Category, new CategoryView { }),
+                                        Type = _mapper.Map(prices.Product.Type, new TypeView { }),
                                         Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
                                     }),
                                     Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
@@ -109,7 +108,7 @@ namespace ixiaBackend_application.Services
                                         TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                          .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
-                                        Category = _mapper.Map(prices.Product.Category, new CategoryView { }),
+                                        Type = _mapper.Map(prices.Product.Type, new TypeView { }),
                                         Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
                                     }),
                                     Currency = _mapper.Map(prices.Currency, new CurrencyView { }),

@@ -178,5 +178,17 @@
             <param name="currencyId">Currency id</param>
             <param name="comments">Comments</param>
         </member>
+        <member name="M:ixiaBackend_application.Controllers.SubCategoryController.GetSubCategoryAsync(System.Int32)">
+            <summary>
+            Get SubCategories
+            </summary>
+            <param name="id">category id</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.TypeController.GetTypeAsync(System.Int32)">
+            <summary>
+            Get Types
+            </summary>
+            <param name="id">sub category id</param>
+        </member>
     </members>
 </doc>

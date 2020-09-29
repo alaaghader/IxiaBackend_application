@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ixiaBackend_application.Migrations
 {
-    public partial class initialmig : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,7 +47,8 @@ namespace ixiaBackend_application.Migrations
                     BirthDate = table.Column<DateTime>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     Token = table.Column<string>(nullable: true),
-                    Provider = table.Column<string>(nullable: true)
+                    Provider = table.Column<string>(nullable: true),
+                    ProfilePicture = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -219,12 +220,72 @@ namespace ixiaBackend_application.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sub_Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sub_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sub_Categories_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Brands",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    CompanyId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Brands", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Brands_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Types",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Sub_CategoryId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Types", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Types_Sub_Categories_Sub_CategoryId",
+                        column: x => x.Sub_CategoryId,
+                        principalTable: "Sub_Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(nullable: false),
+                    TypeId = table.Column<int>(nullable: false),
                     CompanyId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: true),
@@ -234,15 +295,15 @@ namespace ixiaBackend_application.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Products_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_Types_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "Types",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -253,11 +314,25 @@ namespace ixiaBackend_application.Migrations
                 {
                     UserId = table.Column<string>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
+                    CountryId = table.Column<int>(nullable: false),
+                    CurrencyId = table.Column<int>(nullable: false),
                     FavoriteTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favorites", x => new { x.UserId, x.ProductId });
+                    table.PrimaryKey("PK_Favorites", x => new { x.UserId, x.ProductId, x.CountryId, x.CurrencyId });
+                    table.ForeignKey(
+                        name: "FK_Favorites_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Favorites_Products_ProductId",
                         column: x => x.ProductId,
@@ -308,15 +383,24 @@ namespace ixiaBackend_application.Migrations
                 name: "Purchases",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(nullable: true),
                     ProductId = table.Column<int>(nullable: false),
+                    CountryId = table.Column<int>(nullable: false),
                     CurrencyId = table.Column<int>(nullable: false),
                     PurchaseTime = table.Column<DateTime>(nullable: false),
                     Comments = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Purchases", x => new { x.UserId, x.ProductId });
+                    table.PrimaryKey("PK_Purchases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Purchases_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Purchases_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
@@ -334,7 +418,7 @@ namespace ixiaBackend_application.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -377,6 +461,21 @@ namespace ixiaBackend_application.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Brands_CompanyId",
+                table: "Brands",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Favorites_CountryId",
+                table: "Favorites",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Favorites_CurrencyId",
+                table: "Favorites",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Favorites_ProductId",
                 table: "Favorites",
                 column: "ProductId");
@@ -392,14 +491,19 @@ namespace ixiaBackend_application.Migrations
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
-                table: "Products",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_CompanyId",
                 table: "Products",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_TypeId",
+                table: "Products",
+                column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Purchases_CountryId",
+                table: "Purchases",
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Purchases_CurrencyId",
@@ -410,6 +514,21 @@ namespace ixiaBackend_application.Migrations
                 name: "IX_Purchases_ProductId",
                 table: "Purchases",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Purchases_UserId",
+                table: "Purchases",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sub_Categories_CategoryId",
+                table: "Sub_Categories",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Types_Sub_CategoryId",
+                table: "Types",
+                column: "Sub_CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -428,6 +547,9 @@ namespace ixiaBackend_application.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Brands");
 
             migrationBuilder.DropTable(
                 name: "Favorites");
@@ -454,10 +576,16 @@ namespace ixiaBackend_application.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Companies");
 
             migrationBuilder.DropTable(
-                name: "Companies");
+                name: "Types");
+
+            migrationBuilder.DropTable(
+                name: "Sub_Categories");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

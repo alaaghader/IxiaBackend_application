@@ -28,7 +28,7 @@ namespace ixiaBackend_application.Services
         {
             Product prod = new Product
             {
-                CategoryId = productInput.CategoryId,
+                TypeId = productInput.CategoryId,
                 Name = productInput.Name,
                 Description = productInput.Description,
                 ImageUrl = productInput.ImageUrl,
@@ -49,7 +49,7 @@ namespace ixiaBackend_application.Services
                                     TotalFavorite = _context.Favorites.Select(x => x.ProductId == product.Id).Count(),
                                     IsFavorite = userId != null && _context.Favorites
                                     .Any(x => x.UserId == userId && x.ProductId == product.Id),
-                                    Category = _mapper.Map(product.Category, new CategoryView { }),
+                                    Type = _mapper.Map(product.Type, new TypeView { }),
                                     Company = _mapper.Map(product.Company, new CompanyView { }),
                                 })).ToListAsync();
 
@@ -65,7 +65,7 @@ namespace ixiaBackend_application.Services
                                     TotalFavorite = _context.Favorites.Select(x => x.ProductId == product.Id).Count(),
                                     IsFavorite = userId != null && _context.Favorites
                                     .Any(x => x.UserId == userId && x.ProductId == product.Id),
-                                    Category = _mapper.Map(product.Category, new CategoryView { }),
+                                    Type = _mapper.Map(product.Type, new TypeView { }),
                                     Company = _mapper.Map(product.Company, new CompanyView { }),
                                 })).ToListAsync();
 
@@ -79,7 +79,7 @@ namespace ixiaBackend_application.Services
                                 select _mapper.Map(product, new ProductView {
                                     IsFavorite = userId != null && _context.Favorites
                                     .Any(x => x.UserId == userId && x.ProductId == product.Id),
-                                    Category = _mapper.Map(product.Category, new CategoryView { }),
+                                    Type = _mapper.Map(product.Type, new TypeView { }),
                                     Company = _mapper.Map(product.Company, new CompanyView { }),
                                 }))
                                 .FirstAsync();

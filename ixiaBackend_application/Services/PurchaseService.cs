@@ -39,7 +39,7 @@ namespace ixiaBackend_application.Services
                                             TotalFavorite = _context.Favorites.Select(x => x.ProductId == purchases.ProductId).Count(),
                                             IsFavorite = userId != null && _context.Favorites
                                                 .Any(x => x.UserId == userId && x.ProductId == purchases.ProductId),
-                                            Category = _mapper.Map(purchases.Product.Category, new CategoryView { }),
+                                            Type = _mapper.Map(purchases.Product.Type, new TypeView { }),
                                             Company = _mapper.Map(purchases.Product.Company, new CompanyView { }),
                                         }),
                                         Country = _mapper.Map(purchases.Country, new CountryView { }),

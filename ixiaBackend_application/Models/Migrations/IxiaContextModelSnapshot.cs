@@ -221,6 +221,26 @@ namespace ixiaBackend_application.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ixiaBackend_application.Models.Entities.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Brands");
+                });
+
             modelBuilder.Entity("ixiaBackend_application.Models.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -357,9 +377,6 @@ namespace ixiaBackend_application.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
@@ -372,11 +389,14 @@ namespace ixiaBackend_application.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("TypeId");
 
                     b.ToTable("Products");
                 });
@@ -417,6 +437,46 @@ namespace ixiaBackend_application.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("ixiaBackend_application.Models.Entities.Sub_Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Sub_Categories");
+                });
+
+            modelBuilder.Entity("ixiaBackend_application.Models.Entities.Type", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Sub_CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Sub_CategoryId");
+
+                    b.ToTable("Types");
                 });
 
             modelBuilder.Entity("ixiaBackend_application.Models.Entities.User", b =>
@@ -501,6 +561,13 @@ namespace ixiaBackend_application.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ixiaBackend_application.Models.Entities.Brand", b =>
+                {
+                    b.HasOne("ixiaBackend_application.Models.Entities.Company", "Company")
+                        .WithMany("Brands")
+                        .HasForeignKey("CompanyId");
+                });
+
             modelBuilder.Entity("ixiaBackend_application.Models.Entities.Favorite", b =>
                 {
                     b.HasOne("ixiaBackend_application.Models.Entities.Country", "Country")
@@ -551,15 +618,15 @@ namespace ixiaBackend_application.Migrations
 
             modelBuilder.Entity("ixiaBackend_application.Models.Entities.Product", b =>
                 {
-                    b.HasOne("ixiaBackend_application.Models.Entities.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ixiaBackend_application.Models.Entities.Company", "Company")
                         .WithMany("Products")
                         .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ixiaBackend_application.Models.Entities.Type", "Type")
+                        .WithMany("Products")
+                        .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -587,6 +654,20 @@ namespace ixiaBackend_application.Migrations
                     b.HasOne("ixiaBackend_application.Models.Entities.User", "User")
                         .WithMany("Purchases")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("ixiaBackend_application.Models.Entities.Sub_Category", b =>
+                {
+                    b.HasOne("ixiaBackend_application.Models.Entities.Category", "Category")
+                        .WithMany("Sub_Categories")
+                        .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("ixiaBackend_application.Models.Entities.Type", b =>
+                {
+                    b.HasOne("ixiaBackend_application.Models.Entities.Sub_Category", "Sub_Category")
+                        .WithMany("Types")
+                        .HasForeignKey("Sub_CategoryId");
                 });
 #pragma warning restore 612, 618
         }

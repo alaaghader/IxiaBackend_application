@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using ixiaBackend_application.Models;
 using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Models.ModelsView;
@@ -41,7 +40,7 @@ namespace ixiaBackend_application.Services
                                             TotalFavorite = _context.Favorites.Select(x => x.ProductId == favorites.ProductId).Count(),
                                             IsFavorite = userId != null && _context.Favorites
                                                 .Any(x => x.UserId == userId && x.ProductId == favorites.ProductId),
-                                            Category = _mapper.Map(favorites.Product.Category, new CategoryView { }),
+                                            Type = _mapper.Map(favorites.Product.Type, new TypeView { }),
                                             Company = _mapper.Map(favorites.Product.Company, new CompanyView { }),
                                         }),
                                         Country = _mapper.Map(favorites.Country, new CountryView { }),

@@ -67,6 +67,8 @@ namespace ixiaBackend_application
             services.AddScoped<ICurrencyService, CurrencyService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IPriceService, PriceService>();
+            services.AddScoped<ISub_CategoriesService, Sub_CategoryService>();
+            services.AddScoped<ITypeService, TypeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

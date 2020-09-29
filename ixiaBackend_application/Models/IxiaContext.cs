@@ -17,6 +17,9 @@ namespace ixiaBackend_application.Models
         public DbSet<Price> Prices { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Sub_Category> Sub_Categories { get; set; }
+        public DbSet<Type> Types { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,7 +36,7 @@ namespace ixiaBackend_application.Models
             {
                 entity.HasKey(e => e.Id);
                 entity.HasOne(e => e.Company).WithMany(e => e.Products);
-                entity.HasOne(e => e.Category).WithMany(e => e.Products);
+                entity.HasOne(e => e.Type).WithMany(e => e.Products);
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -72,6 +75,24 @@ namespace ixiaBackend_application.Models
             modelBuilder.Entity<Currency>(entity =>
             {
                 entity.HasKey(e => e.Id);
+            });
+
+            modelBuilder.Entity<Brand>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasOne(e => e.Company).WithMany(e => e.Brands);
+            });
+
+            modelBuilder.Entity<Sub_Category>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasOne(e => e.Category).WithMany(e => e.Sub_Categories);
+            });
+
+            modelBuilder.Entity<Type>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasOne(e => e.Sub_Category).WithMany(e => e.Types);
             });
         }
     }

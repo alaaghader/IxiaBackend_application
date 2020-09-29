@@ -3,14 +3,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using ixiaBackend_application.Helpers;
-using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Models.ModelsView;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace ixiaBackend_application.Controllers
 {
@@ -18,21 +15,11 @@ namespace ixiaBackend_application.Controllers
     [ApiController]
     public class AccountController : Controller
     {
-        private UserManager<User> _userManager;
         private IAccountService _account;
-        private SignInManager<User> signInManager;
-        private IConfiguration _config;
 
-        public AccountController(
-            IAccountService account,
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            IConfiguration config)
+        public AccountController(IAccountService account)
         {
-            _userManager = userManager;
             _account = account;
-            this.signInManager = signInManager;
-           _config = config;
         }
 
         /// <summary>

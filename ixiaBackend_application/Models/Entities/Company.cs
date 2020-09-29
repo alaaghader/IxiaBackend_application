@@ -16,5 +16,6 @@ namespace ixiaBackend_application.Models.Entities
         public double Lon { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Brand> Brands { get; set; }
     }
 }
