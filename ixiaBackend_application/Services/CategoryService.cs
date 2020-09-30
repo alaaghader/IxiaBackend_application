@@ -4,6 +4,7 @@ using ixiaBackend_application.Models.Entities;
 using ixiaBackend_application.Models.ModelsView;
 using ixiaBackend_application.ModelsInput;
 using ixiaBackend_application.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,14 @@ namespace ixiaBackend_application.Services
                 await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<Result<List<CategoryView>>> GetAllCategoriesAsync()
+        {
+            var result = await (from categories in _context.Categories
+                                select _mapper.Map(categories, new CategoryView { }))
+                                .ToListAsync();
+            return result;
         }
     }
 }

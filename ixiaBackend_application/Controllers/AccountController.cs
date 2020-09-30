@@ -74,17 +74,6 @@ namespace ixiaBackend_application.Controllers
             return result.ToActionResult();
         }
 
-        [HttpGet("hashem/{token}")]
-        [AllowAnonymous]
-        public async Task<HttpStatusCode> ValidateTokenAsync(string token) {
-            var userInfoUrl = "http://localhost:5000/api/Profile"; 
-            var hc = new HttpClient();
-            hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var response = hc.GetAsync(userInfoUrl).Result;
-            dynamic userInfo = response.Content.ReadAsStringAsync().Result;
-            return response.StatusCode;
-        }
-
         //  [HttpGet("hi")]
         //  public async Task<IActionResult> Test()
         //  {

@@ -29,5 +29,16 @@ namespace ixiaBackend_application.Controllers
             var result = await _categoryService.AddCategoryAsync(categoryInput);
             return result.ToActionResult();
         }
+
+        /// <summary>
+        /// Get Categories
+        /// </summary>
+        [HttpGet("GetCategories")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetCategoriesAsync()
+        {
+            var result = await _categoryService.GetAllCategoriesAsync();
+            return result.ToActionResult();
+        }
     }
 }

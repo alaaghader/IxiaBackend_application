@@ -10,5 +10,7 @@ namespace ixiaBackend_application.Services.Interfaces
     public interface ICategoryService
     {
         Task<Result<bool>> AddCategoryAsync(CategoryInput categoryInput);
+
+        Task<Result<List<CategoryView>>> GetAllCategoriesAsync();
     }
 }
