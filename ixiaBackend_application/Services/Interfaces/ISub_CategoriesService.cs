@@ -7,5 +7,6 @@ namespace ixiaBackend_application.Services.Interfaces
     public interface ISub_CategoriesService
     {
         Task<Result<List<Sub_CategoryView>>> GetSubCategoryAsync(int categoryId);
+        Task<Result<List<Sub_CategoryView>>> GetAllSubCategoriesAsync();
     }
 }

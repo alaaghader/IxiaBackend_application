@@ -35,5 +35,18 @@ namespace ixiaBackend_application.Services
 
             return result;
         }
+
+        public async Task<Result<List<TypeView>>> GetAllTypesAsync() 
+        {
+            var result = await (from types in ixiaContext.Types
+                                select _mapper.Map(types, new TypeView {
+                                    Sub_Category = _mapper.Map(types.Sub_Category, new Sub_CategoryView
+                                    {
+                                        Category = _mapper.Map(types.Sub_Category.Category, new CategoryView { }),
+                                    }),
+                                })).ToListAsync();
+
+            return result;
+        }
     }
 }

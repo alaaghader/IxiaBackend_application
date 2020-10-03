@@ -17,13 +17,24 @@ namespace ixiaBackend_application.Controllers
         }
 
         /// <summary>
-        /// Get Types
+        /// Get Type
         /// </summary>
         /// <param name="id">sub category id</param>
         [HttpPost("getSubCategories/{id}")]
         public async Task<IActionResult> GetTypeAsync(int id)
         {
             var result = await typeService.GetTypeAsync(id);
+            return result.ToActionResult();
+        }
+
+
+        /// <summary>
+        /// Get All Types
+        /// </summary>
+        [HttpPost("getalltypes")]
+        public async Task<IActionResult> GetAllTypesAsync ()
+        {
+            var result = await typeService.GetAllTypesAsync();
             return result.ToActionResult();
         }
     }

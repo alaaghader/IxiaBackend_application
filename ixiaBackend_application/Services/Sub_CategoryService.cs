@@ -33,5 +33,14 @@ namespace ixiaBackend_application.Services
 
             return result;
         }
+
+        public async Task<Result<List<Sub_CategoryView>>> GetAllSubCategoriesAsync() 
+        {
+            var result = await (from subcategories in ixiaContext.Sub_Categories
+                                select _mapper.Map(subcategories, new Sub_CategoryView {
+                                    Category = _mapper.Map(subcategories.Category, new CategoryView { }),
+                                })).ToListAsync();
+            return result;
+        } 
     }
 }

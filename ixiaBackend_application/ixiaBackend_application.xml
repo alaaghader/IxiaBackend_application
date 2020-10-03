@@ -38,6 +38,11 @@
             </summary>
             <param name="categoryInput">Category input</param>
         </member>
+        <member name="M:ixiaBackend_application.Controllers.CategoryController.GetCategoriesAsync">
+            <summary>
+            Get Categories
+            </summary>
+        </member>
         <member name="M:ixiaBackend_application.Controllers.CompanyController.AddCompanyAsync(ixiaBackend_application.ModelsInput.CompanyInput)">
             <summary>
             Add Company

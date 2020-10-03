@@ -7,5 +7,6 @@ namespace ixiaBackend_application.Services.Interfaces
     public interface ITypeService
     {
         Task<Result<List<TypeView>>> GetTypeAsync(int subCategoryId);
+        Task<Result<List<TypeView>>> GetAllTypesAsync();
     }
 }
