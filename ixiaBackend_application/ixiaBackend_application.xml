@@ -185,15 +185,25 @@
         </member>
         <member name="M:ixiaBackend_application.Controllers.SubCategoryController.GetSubCategoryAsync(System.Int32)">
             <summary>
-            Get SubCategories
+            Get SubCategory
             </summary>
             <param name="id">category id</param>
         </member>
+        <member name="M:ixiaBackend_application.Controllers.SubCategoryController.GetAllSubCategorsiesAsync">
+            <summary>
+            Get All SubCategories
+            </summary>
+        </member>
         <member name="M:ixiaBackend_application.Controllers.TypeController.GetTypeAsync(System.Int32)">
             <summary>
-            Get Types
+            Get Type
             </summary>
             <param name="id">sub category id</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.TypeController.GetAllTypesAsync">
+            <summary>
+            Get All Types
+            </summary>
         </member>
     </members>
 </doc>

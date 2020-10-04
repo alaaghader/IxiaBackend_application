@@ -6,6 +6,7 @@ namespace ixiaBackend_application.Models.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string PhotoUrl { get; set; }
 
         public virtual Sub_Category Sub_Category { get; set; }
         public virtual ICollection<Product> Products { get; set; }

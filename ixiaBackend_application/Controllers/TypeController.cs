@@ -20,7 +20,7 @@ namespace ixiaBackend_application.Controllers
         /// Get Type
         /// </summary>
         /// <param name="id">sub category id</param>
-        [HttpPost("getSubCategories/{id}")]
+        [HttpGet("gettype/{id}")]
         public async Task<IActionResult> GetTypeAsync(int id)
         {
             var result = await typeService.GetTypeAsync(id);
@@ -31,7 +31,7 @@ namespace ixiaBackend_application.Controllers
         /// <summary>
         /// Get All Types
         /// </summary>
-        [HttpPost("getalltypes")]
+        [HttpGet("getalltypes")]
         public async Task<IActionResult> GetAllTypesAsync ()
         {
             var result = await typeService.GetAllTypesAsync();
