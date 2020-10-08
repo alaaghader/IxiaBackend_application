@@ -42,7 +42,7 @@ namespace ixiaBackend_application.Controllers
         /// <param name="countryName">Country name</param>
         [HttpGet("GetPrices/{countryName}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetPriceAsync(string countryName)
+        public async Task<IActionResult> GetPricesByCountry(string countryName)
         {
             var user = await userManager.GetUserAsync(User);
             if (user == null)
@@ -53,6 +53,72 @@ namespace ixiaBackend_application.Controllers
             else
             {
                 var result = await _priceService.GetPricesByCountry(countryName, user.Id);
+                return result.ToActionResult();
+            }
+        }
+
+        /// <summary>
+        /// Get Price By User Country And Category
+        /// </summary>
+        /// <param name="countryName">Country name</param>
+        /// <param name="categoryId">Country name</param>
+        [HttpGet("GetPricesByCategory/{countryName}/{categoryId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPricesByCountryAndCategory(string countryName, int categoryId)
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                var result = await _priceService.GetPricesByCountryAndCategory(countryName, null, categoryId);
+                return result.ToActionResult();
+            }
+            else
+            {
+                var result = await _priceService.GetPricesByCountryAndCategory(countryName, user.Id, categoryId);
+                return result.ToActionResult();
+            }
+        }
+
+        /// <summary>
+        /// Get Price By User Country And SubCategory
+        /// </summary>
+        /// <param name="countryName">Country name</param>
+        /// <param name="subCategoryId">Sub category name</param>
+        [HttpGet("GetPricesBySubCategory/{countryName}/{subCategoryId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPricesByCountryAndSubCategory(string countryName, int subCategoryId)
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                var result = await _priceService.GetPricesByCountryAndSubCategory(countryName, null, subCategoryId);
+                return result.ToActionResult();
+            }
+            else
+            {
+                var result = await _priceService.GetPricesByCountryAndSubCategory(countryName, user.Id, subCategoryId);
+                return result.ToActionResult();
+            }
+        }
+
+        /// <summary>
+        /// Get Recommended
+        /// </summary>
+        /// <param name="prodId">Prod id</param>
+        /// <param name="countryName">Country name</param>
+        [HttpGet("GetRecommended/{prodId}/{countryName}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetRecommended(string countryName, int prodId)
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                var result = await _priceService.GetRecommendedProducts(prodId, null, countryName);
+                return result.ToActionResult();
+            }
+            else
+            {
+                var result = await _priceService.GetRecommendedProducts(prodId, user.Id, countryName);
                 return result.ToActionResult();
             }
         }

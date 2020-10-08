@@ -94,10 +94,31 @@
             </summary>
             <param name="productInput">Price input</param>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.PriceController.GetPriceAsync(System.String)">
+        <member name="M:ixiaBackend_application.Controllers.PriceController.GetPricesByCountry(System.String)">
             <summary>
             Get Price By User Country
             </summary>
+            <param name="countryName">Country name</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.PriceController.GetPricesByCountryAndCategory(System.String,System.Int32)">
+            <summary>
+            Get Price By User Country And Category
+            </summary>
+            <param name="countryName">Country name</param>
+            <param name="categoryId">Country name</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.PriceController.GetPricesByCountryAndSubCategory(System.String,System.Int32)">
+            <summary>
+            Get Price By User Country And SubCategory
+            </summary>
+            <param name="countryName">Country name</param>
+            <param name="subCategoryId">Sub category name</param>
+        </member>
+        <member name="M:ixiaBackend_application.Controllers.PriceController.GetRecommended(System.String,System.Int32)">
+            <summary>
+            Get Recommended
+            </summary>
+            <param name="prodId">Prod id</param>
             <param name="countryName">Country name</param>
         </member>
         <member name="M:ixiaBackend_application.Controllers.PriceController.SearchPriceAsync(System.String,System.String)">
@@ -174,13 +195,14 @@
             </summary>
             <returns>All Purchases Details</returns>
         </member>
-        <member name="M:ixiaBackend_application.Controllers.PurchaseController.AddPurchasesAsync(System.Int32,System.Int32,System.Int32,System.String)">
+        <member name="M:ixiaBackend_application.Controllers.PurchaseController.AddPurchasesAsync(System.Int32,System.Int32,System.Int32,System.String,System.Int32)">
             <summary>
             Toggle Purchase
             </summary>
             <param name="productId">Product id</param>
             <param name="countryId">Country id</param>
             <param name="currencyId">Currency id</param>
+            <param name="quantity">Quantity</param>
             <param name="comments">Comments</param>
         </member>
         <member name="M:ixiaBackend_application.Controllers.SubCategoryController.GetSubCategoryAsync(System.Int32)">

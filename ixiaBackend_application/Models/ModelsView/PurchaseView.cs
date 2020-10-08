@@ -8,5 +8,6 @@ namespace ixiaBackend_application.Models.ModelsView
         public PriceView Price { get; set; }
         public DateTime PurchaseTime { get; set; }
         public string Comments { get; set; }
+        public int Quantity { get; set; }
     }
 }

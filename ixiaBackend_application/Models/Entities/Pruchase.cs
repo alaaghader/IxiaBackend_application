@@ -9,6 +9,7 @@ namespace ixiaBackend_application.Models.Entities
         public int ProductId { get; set; }
         public int CountryId { get; set; }
         public int CurrencyId { get; set; }
+        public int Quantity { get; set; }
         public DateTime PurchaseTime { get; set; }
         public string Comments { get; set; }
 

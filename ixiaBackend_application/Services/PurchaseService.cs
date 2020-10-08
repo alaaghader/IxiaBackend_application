@@ -49,19 +49,30 @@ namespace ixiaBackend_application.Services
             return result;
         }
 
-        public async Task<Result<bool>> AddPurchaseAsync(string userId, int productId, int countryId, int currencyId, string comments)
+        public async Task<Result<bool>> AddPurchaseAsync(string userId, int productId, int countryId, int currencyId, string comments, int quantity)
         {
-            var newRecord = new Purchase
+            var record = await _context.Purchases.SingleOrDefaultAsync(e => e.UserId == userId && e.ProductId == productId && e.CountryId == countryId && e.CurrencyId == currencyId);
+            if (record == null)
             {
-                UserId = userId,
-                ProductId = productId,
-                CountryId = countryId,
-                CurrencyId = currencyId,
-                PurchaseTime = DateTime.Now,
-                Comments = comments,
-            };
-            await _context.Purchases.AddAsync(newRecord);
-            await _context.SaveChangesAsync();
+                var newRecord = new Purchase
+                {
+                    UserId = userId,
+                    ProductId = productId,
+                    CountryId = countryId,
+                    CurrencyId = currencyId,
+                    PurchaseTime = DateTime.Now,
+                    Comments = comments,
+                    Quantity = quantity,
+                };
+                await _context.Purchases.AddAsync(newRecord);
+                await _context.SaveChangesAsync();
+            }
+            else 
+            {
+                record.Quantity = record.Quantity + quantity;
+                await _context.SaveChangesAsync();
+            }
+
             
             return true;
         }

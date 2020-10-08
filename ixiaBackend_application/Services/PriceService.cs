@@ -58,7 +58,67 @@ namespace ixiaBackend_application.Services
                                         TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                         .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
-                                        Type = _mapper.Map(prices.Product.Type, new TypeView { }),
+                                        Type = _mapper.Map(prices.Product.Type, new TypeView {
+                                            Sub_Category = _mapper.Map(prices.Product.Type.Sub_Category, new Sub_CategoryView { 
+                                                Category = _mapper.Map(prices.Product.Type.Sub_Category.Category, new CategoryView { }),
+                                            }),
+                                        }),
+                                        Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
+                                    }),
+                                    Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
+                                    Country = _mapper.Map(prices.Country, new CountryView { }),
+                                })).ToListAsync();
+            return result;
+        }
+
+        public async Task<Result<List<PriceView>>> GetPricesByCountryAndCategory(string countryName, string userId, int categoryId)
+        {
+            var result = await (from prices in _ixiaContext.Prices
+                                join countries in _ixiaContext.Countries
+                                on prices.CountryId equals countries.Id
+                                where countries.Name == countryName && prices.Product.Type.Sub_Category.Category.Id == categoryId
+                                select _mapper.Map(prices, new PriceView
+                                {
+                                    Product = _mapper.Map(prices.Product, new ProductView
+                                    {
+                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        IsFavorite = userId != null && _ixiaContext.Favorites
+                                        .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
+                                        Type = _mapper.Map(prices.Product.Type, new TypeView
+                                        {
+                                            Sub_Category = _mapper.Map(prices.Product.Type.Sub_Category, new Sub_CategoryView
+                                            {
+                                                Category = _mapper.Map(prices.Product.Type.Sub_Category.Category, new CategoryView { }),
+                                            }),
+                                        }),
+                                        Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
+                                    }),
+                                    Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
+                                    Country = _mapper.Map(prices.Country, new CountryView { }),
+                                })).ToListAsync();
+            return result;
+        }
+
+        public async Task<Result<List<PriceView>>> GetPricesByCountryAndSubCategory(string countryName, string userId, int subCategoryId)
+        {
+            var result = await (from prices in _ixiaContext.Prices
+                                join countries in _ixiaContext.Countries
+                                on prices.CountryId equals countries.Id
+                                where countries.Name == countryName && prices.Product.Type.Sub_Category.Id == subCategoryId
+                                select _mapper.Map(prices, new PriceView
+                                {
+                                    Product = _mapper.Map(prices.Product, new ProductView
+                                    {
+                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        IsFavorite = userId != null && _ixiaContext.Favorites
+                                        .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
+                                        Type = _mapper.Map(prices.Product.Type, new TypeView
+                                        {
+                                            Sub_Category = _mapper.Map(prices.Product.Type.Sub_Category, new Sub_CategoryView
+                                            {
+                                                Category = _mapper.Map(prices.Product.Type.Sub_Category.Category, new CategoryView { }),
+                                            }),
+                                        }),
                                         Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
                                     }),
                                     Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
@@ -83,7 +143,13 @@ namespace ixiaBackend_application.Services
                                         TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                          .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
-                                        Type = _mapper.Map(prices.Product.Type, new TypeView { }),
+                                        Type = _mapper.Map(prices.Product.Type, new TypeView
+                                        {
+                                            Sub_Category = _mapper.Map(prices.Product.Type.Sub_Category, new Sub_CategoryView
+                                            {
+                                                Category = _mapper.Map(prices.Product.Type.Sub_Category.Category, new CategoryView { }),
+                                            }),
+                                        }),
                                         Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
                                     }),
                                     Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
@@ -108,12 +174,52 @@ namespace ixiaBackend_application.Services
                                         TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                          .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
-                                        Type = _mapper.Map(prices.Product.Type, new TypeView { }),
+                                        Type = _mapper.Map(prices.Product.Type, new TypeView
+                                        {
+                                            Sub_Category = _mapper.Map(prices.Product.Type.Sub_Category, new Sub_CategoryView
+                                            {
+                                                Category = _mapper.Map(prices.Product.Type.Sub_Category.Category, new CategoryView { }),
+                                            }),
+                                        }),
                                         Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
                                     }),
                                     Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
                                     Country = _mapper.Map(prices.Country, new CountryView { }),
                                 })).SingleAsync();
+            return result;
+        }
+
+        public async Task<Result<List<PriceView>>> GetRecommendedProducts(int prodId, string userId, string countryName) 
+        {
+            var record = await _ixiaContext.Products.SingleOrDefaultAsync(e => e.Id == prodId);
+            var result = await (from prices in _ixiaContext.Prices
+                                join countries in _ixiaContext.Countries
+                                on prices.CountryId equals countries.Id
+                                join prodcuts in _ixiaContext.Products
+                                on prices.ProductId equals prodcuts.Id
+                                where record.TypeId == prodcuts.TypeId
+                                && countries.Name == countryName
+                                && prodcuts.Id != prodId
+                                select _mapper.Map(prices, new PriceView
+                                {
+                                    Product = _mapper.Map(prices.Product, new ProductView
+                                    {
+                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        IsFavorite = userId != null && _ixiaContext.Favorites
+                                         .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
+                                        Type = _mapper.Map(prices.Product.Type, new TypeView
+                                        {
+                                            Sub_Category = _mapper.Map(prices.Product.Type.Sub_Category, new Sub_CategoryView
+                                            {
+                                                Category = _mapper.Map(prices.Product.Type.Sub_Category.Category, new CategoryView { }),
+                                            }),
+                                        }),
+                                        Company = _mapper.Map(prices.Product.Company, new CompanyView { }),
+                                    }),
+                                    Currency = _mapper.Map(prices.Currency, new CurrencyView { }),
+                                    Country = _mapper.Map(prices.Country, new CountryView { }),
+                                })).ToListAsync();
+
             return result;
         }
     }
