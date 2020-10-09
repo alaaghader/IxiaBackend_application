@@ -55,7 +55,7 @@ namespace ixiaBackend_application.Services
                                 {
                                     Product = _mapper.Map(prices.Product, new ProductView
                                     {
-                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        TotalFavorite = _ixiaContext.Favorites.Where(x => x.ProductId == prices.Product.Id).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                         .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
                                         Type = _mapper.Map(prices.Product.Type, new TypeView {
@@ -81,7 +81,7 @@ namespace ixiaBackend_application.Services
                                 {
                                     Product = _mapper.Map(prices.Product, new ProductView
                                     {
-                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        TotalFavorite = _ixiaContext.Favorites.Where(x => x.ProductId == prices.Product.Id).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                         .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
                                         Type = _mapper.Map(prices.Product.Type, new TypeView
@@ -109,7 +109,7 @@ namespace ixiaBackend_application.Services
                                 {
                                     Product = _mapper.Map(prices.Product, new ProductView
                                     {
-                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        TotalFavorite = _ixiaContext.Favorites.Where(x => x.ProductId == prices.Product.Id).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                         .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
                                         Type = _mapper.Map(prices.Product.Type, new TypeView
@@ -140,7 +140,7 @@ namespace ixiaBackend_application.Services
                                 {
                                     Product = _mapper.Map(prices.Product, new ProductView
                                     {
-                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        TotalFavorite = _ixiaContext.Favorites.Where(x => x.ProductId == prices.Product.Id).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                          .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
                                         Type = _mapper.Map(prices.Product.Type, new TypeView
@@ -171,7 +171,7 @@ namespace ixiaBackend_application.Services
                                 {
                                     Product = _mapper.Map(prices.Product, new ProductView
                                     {
-                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        TotalFavorite = _ixiaContext.Favorites.Where(x => x.ProductId == prices.Product.Id).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                          .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
                                         Type = _mapper.Map(prices.Product.Type, new TypeView
@@ -204,7 +204,7 @@ namespace ixiaBackend_application.Services
                                 {
                                     Product = _mapper.Map(prices.Product, new ProductView
                                     {
-                                        TotalFavorite = _ixiaContext.Favorites.Select(x => x.ProductId == prices.ProductId).Count(),
+                                        TotalFavorite = _ixiaContext.Favorites.Where(x => x.ProductId == prices.Product.Id).Count(),
                                         IsFavorite = userId != null && _ixiaContext.Favorites
                                          .Any(x => x.UserId == userId && x.ProductId == prices.ProductId),
                                         Type = _mapper.Map(prices.Product.Type, new TypeView

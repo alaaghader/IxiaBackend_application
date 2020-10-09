@@ -46,7 +46,7 @@ namespace ixiaBackend_application.Services
             var result = await (from product in _context.Products
                                 select _mapper.Map(product, new ProductView
                                 {
-                                    TotalFavorite = _context.Favorites.Select(x => x.ProductId == product.Id).Count(),
+                                    TotalFavorite = _context.Favorites.Where(x => x.ProductId == product.Id).Count(),
                                     IsFavorite = userId != null && _context.Favorites
                                     .Any(x => x.UserId == userId && x.ProductId == product.Id),
                                     Type = _mapper.Map(product.Type, new TypeView { }),
@@ -62,7 +62,7 @@ namespace ixiaBackend_application.Services
                                 where product.Name.Contains(name)
                                 select _mapper.Map(product, new ProductView
                                 {
-                                    TotalFavorite = _context.Favorites.Select(x => x.ProductId == product.Id).Count(),
+                                    TotalFavorite = _context.Favorites.Where(x => x.ProductId == product.Id).Count(),
                                     IsFavorite = userId != null && _context.Favorites
                                     .Any(x => x.UserId == userId && x.ProductId == product.Id),
                                     Type = _mapper.Map(product.Type, new TypeView { }),
